@@ -1,0 +1,88 @@
+<section>
+    <div class="container-fluid px-4">
+      <div class="card">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#dgsp-xu-ly">Tất Cả
+                <span class="badge text-bg-secondary"></span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#dgsp-hien-thi">Hiển thị
+                <span class="badge text-bg-secondary"></span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#dgsp-san-pham">Sản phẩm
+                <span class="badge text-bg-secondary"></span>
+              </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#dgsp-an">Ẩn
+                  <span class="badge text-bg-secondary"></span>
+                </a>
+              </li>
+          </ul>
+        </div>
+        <br />
+        <br />
+        <div class="card mb-4">
+          <div class="card-body">
+            <div>
+              <input class="form-control" ng-model="search" style="width: 200px" type="text" placeholder="Tìm kiếm..." />
+            </div>
+            <h3 class="text-center">Xử lý đánh giá</h3>
+            <div class="tbHD container">
+              <table class="table table-bordered">
+                <thead>
+                  <tr class="table-secondary">
+                    <th></th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Sản Phẩm</th>
+                    <th scope="col">Khách Hàng</th>
+                    <th scope="col">Nội Dung</th>
+                    <th scope="col">Số Sao</th>
+                    <th scope="col">Ngày Đăng</th>
+                    <th scope="col">Trạng Thái</th>
+                  </tr>
+                </thead>
+                <tbody ng-repeat="dg in listXuLy">
+                    <tr>
+                      <td width="10">
+                        <input type="checkbox" ng-click="checkId(dg.id)" />
+                      </td>
+                      <td>{{dg.id}}</td>
+                      <td>{{dg.sanPham}}</td>
+                      <td>{{dg.khachHang}}</td>
+                      <td>{{dg.noiDung}}</td>
+                      <td>{{dg.soSao}}</td>
+                      <td>{{dg.ngayDang}}</td>
+                      <td>
+                        {{dg.trangThai == 1 ? "Hiển Thị" : dg.trangThai == 2 ?
+                        "Ẩn" : "Đang Xử lý" }}
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+              <div style="text-align: center;">
+                <button type="button" class="btn btn-outline-primary" ng-click="prevPage()"><< </button>
+                <button type=" button" class="btn btn-outline-primary" ng-click="prevPages()"> |< </button>
+                <div style="display: contents;">{{pageNo + 1}} / {{totalPages + 1 <= 0 ? 1 : totalPages + 1}}</div>
+                <button type=" button" class="btn btn-outline-primary" ng-click="nextPages()"> >| </button>
+                <button type=" button" class="btn btn-outline-primary" ng-click="nextPage()"> >> </button>
+            </div>
+          </div>
+          <div style="float: right">
+            <button type="button" class="btn btn-danger" ng-click="update(2)">
+              Ẩn Bình Luận
+            </button>
+            <button type="button" class="btn btn-success" ng-click="update(1)">
+              Hiển Thị Bình Luận
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

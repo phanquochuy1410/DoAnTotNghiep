@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="barcodeApp">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Barcode Scanner</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://cdn.rawgit.com/serratus/quaggaJS/0.12.1/dist/quagga.min.js"></script>
+</head>
+
+<body ng-controller="BarcodeController">
+  <button ng-click="show()">Toggle Scan</button>
+  <div id="barcode-scanner" ng-show="showCame"></div>
+
+  <input type="text" ng-model="scannedId" placeholder="Scanned Barcode">
+
+  Tên sản phẩm : {{tenSanPham}}
+
+
+  <script>
+    angular.module('barcodeApp', [])
+      .controller('BarcodeController', ['$scope', function ($scope) {
+
+        $scope.showCame = false;
+
+        $scope.show = function () {
+          $scope.scanning = !$scope.scanning;
+          if ($scope.scanning) {
+            Quagga.init({
+              inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: document.querySelector('#barcode-scanner'),
+                constraints: {
+                  facingMode: "environment"
+                },
+              },
+              decoder: {
+                readers: [
+                  "code_128_reader"
+                ]
+              }
+            }, function (err) {
+              if (err) {
+                console.error("Error initializing QuaggaJS:", err);
+                return;
+              }
+              console.log("QuaggaJS initialized successfully");
+              Quagga.start();
+            });
+            $scope.showCame = true;
+          } else {
+            Quagga.stop();
+            $scope.showCame = false;
+          }
+        };
+
+        $scope.scanning = false;
+        var barcodeMappings = [{ "id": 195, "ten": "San pham 1 " }, { "id": 12, "ten": "San pham 2 " }]
+        console.log(barcodeMappings)
+
+        // Quagga.init({
+        //   inputStream: {
+        //     name: "Live",
+        //     type: "LiveStream",
+        //     target: document.querySelector('#barcode-scanner'),
+        //     constraints: {
+        //       facingMode: "environment"
+        //     },
+        //   },
+        //   decoder: {
+        //     readers: [
+        //       "code_128_reader"
+        //     ]
+        //   }
+        // }, function (err) {
+        //   if (err) {
+        //     console.error("Error initializing QuaggaJS:", err);
+        //     return;
+        //   }
+        //   console.log("QuaggaJS initialized successfully");
+        //   Quagga.start();
+        // });
+
+        Quagga.onDetected(function (result) {
+          $scope.scanning = false;
+          var scannedBarcode = parseInt(result.codeResult.code);
+          var foundMapping = barcodeMappings.find(function (mapping) {
+            return mapping.id === scannedBarcode;
+          });
+
+          if (foundMapping) {
+            // $scope.scannedId = foundMapping.id;
+            $scope.tenSanPham = foundMapping;
+            $scope.$apply();
+          } else {
+            $scope.scannedId = "Unknown Barcode";
+            $scope.tenSanPham = "";
+            $scope.$apply();
+          }
+
+          setTimeout(function () {
+            Quagga.start();
+            $scope.$apply(function () {
+              $scope.scanning = true;
+            });
+          }, 1000);
+        });
+
+        $scope.toggleScan = function () {
+          $scope.scanning = !$scope.scanning;
+          if ($scope.scanning) {
+            $scope.barcodeResult = "";
+          } else {
+            $scope.barcodeResult = "";
+          }
+        };
+      }]);
+  </script>
+</body>
+
+</html>

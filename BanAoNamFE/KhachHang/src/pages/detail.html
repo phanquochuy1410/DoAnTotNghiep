@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Xem sản phẩm</title>
+
+  <link href="img/favicon.ico" rel="icon" />
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/KhachHang/css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
+  <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/KhachHang/css/style.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+  <div class="container-fluid py-5">
+    <div class="row px-xl-5">
+      <div style="margin-left: 100px;">
+        <div id="product-carousel" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner border">
+            <div class="carousel-item active" style="width: 600px; height: 600px;">
+              <img class="w-100 h-100" src="img/{{images[currentImageIndex]}}" alt="Image" />
+            </div>
+            <a class="carousel-control-prev" ng-click="slideShowPrev()" data-slide="prev">
+              <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                <span class="carousel-control-prev-icon mb-n2"></span>
+              </div>
+            </a>
+            <a class="carousel-control-next" ng-click="slideshowNext()" data-slide="next">
+              <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                <span class="carousel-control-next-icon mb-n2"></span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div style="margin-left: 50px; width: 600px;">
+        <h3 class="font-weight-semi-bold">{{detailCTSP.tenSP}}</h3>
+        <h3 class="font-weight-semi-bold mb-4" ng-if="detailCTSP.giaKhuyenMai == 0">{{detailCTSP.gia | currency:'':0}}đ
+        </h3>
+        <h3 class="font-weight-semi-bold mb-4" ng-if="detailCTSP.giaKhuyenMai != 0"><del
+            style="color: red;font-size: 15px;">{{detailCTSP.gia | currency:'':0}}đ</del> {{detailCTSP.gia -
+          detailCTSP.giaKhuyenMai |
+          currency:'':0}}đ</h3>
+        <hr>
+        <div class="d-flex mb-4">
+          <p class="text-dark font-weight-medium mb-0 mr-3">Màu sắc:</p>
+          <form>
+            <label class="custom-radio-button" style="font-weight: bold;" ng-repeat="ms in listMS">
+              <input type="radio" name="mausac" ng-model="$parent.selectMS" ng-value="ms.id"
+                ng-click="handleRadioClick(ms.ten,detailCTSP.tenSP)"
+                ng-checked="$parent.selectMS == ms.id ? 'checked' : ''" />
+              <span class="radio-button" style="text-align: center;">{{ms.ten}}</span>
+            </label>
+          </form>
+        </div>
+        <div class="d-flex mb-3">
+          <p class="text-dark font-weight-medium mb-0 mr-3">Kích cỡ:</p>
+          <form>
+            <label class="custom-radio-button" style="font-weight: bold;" ng-repeat="kc in listKC">
+              <input type="radio" name="kichCo" ng-model="$parent.selectKC"
+                ng-click="changeElement(kc.id, selectMS, detailCTSP.tenSP)" ng-value="kc.id"
+                ng-checked="$parent.selectKC == kc.id ? 'checked' : ''" />
+              <span class="radio-button" style="text-align: center;">{{kc.ten}}</span><br>
+            </label>
+          </form>
+        </div>
+        <span style="color:red" ng-if="checkFail">
+          <span>* Vui lòng chọn màu sắc và kích cỡ !</span>
+        </span>
+        <hr>
+
+        <p class="text-dark font-weight-medium mb-0 mr-3" style="float: left; margin-top: 10px;">Số lượng :</p>
+        <div class="d-flex align-items-center mb-4 pt-2">
+          <div class="input-group quantity mr-3" style="width: 130px">
+            <div class="input-group-btn">
+              <button class="btn btn-primary btn-minus" style="background-color: black;" ng-click="decrement()">
+                <i class="fa fa-minus" style=" color: white;"></i>
+              </button>
+            </div>
+            <input type="text" class="form-control  text-center" min="1" style="background-color: white;" value="1"
+              ng-model="soLuongMua" />
+            <div class="input-group-btn">
+              <button class="btn btn-primary btn-plus" style="background-color: black;" ng-click="increment()">
+                <i class="fa fa-plus" style=" color: white;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <span style="color:red" ng-if="checkSoLuong">
+          <span>* Số lượng sản phẩm tồn không đủ</span>
+        </span>
+        <span style="color:red" ng-if="checkAm">
+          <span>* Số lượng phải lớn hơn 0 !</span>
+        </span>
+        <span style="color:red" ng-if="hetHang">
+          <span>* Sản phẩm đã hết hàng, xin hãy quay lại sau</span>
+        </span>
+        <span style="color:red" ng-if="soLuongTrong">
+          <span>* Không được để trống số lượng</span>
+        </span>
+
+        <div>
+          <br>
+          <button class="btn btn-outline-danger" ng-click="dangNhap1()"
+            style="border-radius: 10px; width: 150px ;font-size: 20px; height: 50px; font-weight: bold; margin-left: 10px;"
+            data-bs-toggle="modal" id="animated-button" data-bs-toggle="modal" href="#exampleModalToggle5">
+            Mua hàng
+          </button>
+
+          <button class="btn btn-outline-dark" ng-click="dangNhap()"
+            style="border-radius: 10px; height: 40px; font-weight: bold; margin-left: 40px;" data-bs-toggle="modal"
+            href="#exampleModalToggle4" id="animated-button1">
+            <i class="fa fa-shopping-cart mr-1"></i>
+            Thêm vào giỏ hàng
+          </button>
+        </div>
+        <hr>
+        <p class="text-dark font-weight-medium mb-0 mr-3">Tình trạng :<span style="color: green;">
+            {{detailCTSP.trangThai == 1 ? "Còn hàng":"Hết
+            hàng"}}</span></p><br>
+        <p class="text-dark font-weight-medium mb-0 mr-3">Tư vấn mua hàng : <span style="font-size: 30px;">𝟎𝟗𝟖 𝟕𝟔𝟓
+            𝟒𝟑𝟐𝟏</span> (7:00 - 22:00)</p><br>
+        <hr>
+        <div>
+          <div class="dropdown">
+            <span class="text-dark font-weight-medium mb-0 mr-3" style="font-size: 20px; color: black;">Quy định trả
+              hàng ▼</span>
+            <div class="dropdown-content" style="width: 600px;">
+              <p class="text-dark font-weight-medium mb-0 mr-3" style="margin: 10px;"> + Trả sản phẩm trong vòng 03 ngày kể từ ngày nhận hàng
+                trên hệ thống cửa hàng .</p>
+              <p class="text-dark font-weight-medium mb-0 mr-3" style="margin: 10px;"> + Khi trả hàng vui lòng quý khách
+                đóng gói sản phẩm và đúng sản phẩm mà cửa hàng giao đến bạn .</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="myAlert" class="modal fade" role="dialog" data-bs-backdrop="false">
+          <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px;">
+            <div class="modal-content" style="border-radius: 10px;">
+              <div class="modal-body" style="color: black">❌ Vui lòng chọn màu sắc và kích cỡ !</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="myAlert1" class="modal fade" role="dialog" data-bs-backdrop="false">
+          <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px;">
+            <div class="modal-content" style="border-radius: 10px;">
+              <div class="modal-body" style="color: black">❌ Số lượng sản phẩm tồn không đủ !</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="myAlert2" class="modal fade" role="dialog" data-bs-backdrop="false">
+          <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px;">
+            <div class="modal-content" style="border-radius: 10px;">
+              <div class="modal-body" style="color: black">❌ Sản phẩm đã hết hàng, xin hãy quay lại sau !</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="myAlert3" class="modal fade" role="dialog" data-bs-backdrop="false">
+          <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px;">
+            <div class="modal-content" style="border-radius: 10px;">
+              <div class="modal-body" style="color: black">❌ Không được để trống số lượng !</div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="myAlert4" class="modal fade" role="dialog" data-bs-backdrop="false">
+          <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px;">
+            <div class="modal-content" style="border-radius: 10px;">
+              <div class="modal-body" style="color: black">❌ Số lượng phải lớn hơn 0 !</div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="modal fade" id="exampleModalToggle4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+          tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div ng-show="checkDangNhap1">
+                <div style="width: 200px; height: 200px; margin-left: 150px; margin-top: 50px;">
+                  <img class="img-fluid w-100" src="/KhachHang/img/xac-nhan.jpg">
+                </div>
+                <div style="text-align: center;">
+                  <h2 style="color: gray; font-weight: bold;">Đăng nhập ?</h2>
+                  <h6 style="color: gray;">Bạn cần đăng nhập để tiếp tục !</h6>
+                </div>
+                <div style="margin-top: 10px;">
+                  <a href="/KhachHang/src/pages/dang-nhap.html"><button class="btn btn-outline-primary"
+                      data-bs-dismiss="modal" aria-label="Close"
+                      style="width: 170px; height: 50px; margin-left: 60px; font-size: 20px; font-weight: bold;">Đăng
+                      nhập
+                    </button></a>
+                  <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"
+                    style="width: 170px; height: 50px;  margin-left: 40px ; font-size: 20px;font-weight: bold;">Hủy</button>
+                </div>
+              </div>
+              <div ng-show="checkDangNhap">
+                <div style="width: 200px; height: 200px; margin-left: 150px; margin-top: 50px;">
+                  <img class="img-fluid w-100" src="/KhachHang/img/xac-nhan.jpg">
+                </div>
+                <div style="text-align: center;">
+                  <h2 style="color: gray; font-weight: bold;">Xác nhận thêm ?</h2>
+                  <h6 style="color: gray;">Bạn có muốn thêm sản phẩm {{detailCTSP.tenSP}} không !</h6>
+                </div>
+                <div style="margin-top: 10px;">
+                  <a><button class="btn btn-outline-primary" data-bs-dismiss="modal" aria-label="Close"
+                      ng-click="test($event,soLuongMua,detailCTSP.gia,selectMS,selectKC)"
+                      style="width: 170px; height: 50px; margin-left: 60px; font-size: 20px; font-weight: bold;">Xác
+                      nhận</button></a>
+                  <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"
+                    style="width: 170px; height: 50px;  margin-left: 40px ; font-size: 20px;font-weight: bold;">Hủy</button>
+                </div>
+              </div>
+              <br>
+              <br>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="exampleModalToggle5" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+          tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div ng-show="checkDangNhap3">
+                <div style="width: 200px; height: 200px; margin-left: 150px; margin-top: 50px;">
+                  <img class="img-fluid w-100" src="/KhachHang/img/xac-nhan.jpg">
+                </div>
+                <div style="text-align: center;">
+                  <h2 style="color: gray; font-weight: bold;">Đăng nhập ?</h2>
+                  <h6 style="color: gray;">Bạn cần đăng nhập để tiếp tục !</h6>
+                </div>
+                <div style="margin-top: 10px;">
+                  <a href="/KhachHang/src/pages/dang-nhap.html"><button class="btn btn-outline-primary"
+                      data-bs-dismiss="modal" aria-label="Close"
+                      style="width: 170px; height: 50px; margin-left: 60px; font-size: 20px; font-weight: bold;">Đăng
+                      nhập
+                    </button></a>
+                  <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"
+                    style="width: 170px; height: 50px;  margin-left: 40px ; font-size: 20px;font-weight: bold;">Hủy</button>
+                </div>
+              </div>
+              <div ng-show="checkDangNhap2">
+                <div style="width: 200px; height: 200px; margin-left: 150px; margin-top: 50px;">
+                  <img class="img-fluid w-100" src="/KhachHang/img/xac-nhan.jpg">
+                </div>
+                <div style="text-align: center;">
+                  <h2 style="color: gray; font-weight: bold;">Xác nhận mua ?</h2>
+                  <h6 style="color: gray;">Bạn có muốn mua sản phẩm {{detailCTSP.tenSP}} không !</h6>
+                </div>
+                <div style="margin-top: 10px;">
+                  <a href="/KhachHang/src/pages/checkout.html"><button class="btn btn-outline-primary"
+                      data-bs-dismiss="modal" aria-label="Close"
+                      ng-click="test1($event,soLuongMua,detailCTSP.gia,selectMS,selectKC)"
+                      style="width: 170px; height: 50px; margin-left: 60px; font-size: 20px; font-weight: bold;">Xác
+                      nhận</button></a>
+                  <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"
+                    style="width: 170px; height: 50px;  margin-left: 40px ; font-size: 20px;font-weight: bold;">Hủy</button>
+                </div>
+              </div>
+              <br>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+    <div class="row px-xl-5" style="height: 700px;">
+      <div class="col">
+        <div class="nav nav-tabs justify-content-center border-secondary mb-4">
+          <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-1/{{id}}">Tham khảo bảng size</a>
+          <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3/{{id}}">Đánh giá</a>
+        </div>
+        <div class="tab-content">
+          <div class="tab-pane fade show active">
+            <div style="width: 850px; height: 500px; float: left; margin-left: 200px;">
+              <h4 class="mb-3">Bảng size</h4>
+              <img src="/KhachHang/img/bang-size-ao-thun.jpg" style="width: 850px; height: 500px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-left: 100px;" class="font-weight-semi-bold mb-4">{{detailCTSP.mota}}</p>
+    <div class="row px-xl-5">
+
+      <p style="font-weight: bold;">HƯỚNG DẪN BẢO QUẢN</p><br><br>
+
+      – Giặt nhẹ bằng tay với nước lã trước lần mặc đầu tiên<br><br>
+
+      – Nên giặt tay, nếu giặt máy chỉ sử dụng chế độ giặt nhẹ<br><br>
+
+      – Không nên giặt chung với các loại quần áo có màu tương phản cao và không nên sử dụng chất tẩy rửa mạnh<br><br>
+
+      – Với các loại sản phẩm có khóa kéo (zipper) và nút cài, kéo khóa và cài nút trước khi giặt<br><br>
+
+      – Không phơi sản phầm dưới ánh nắng trực tiếp để giữ màu được bền hơn<br><br>
+
+      – Ủi nhẹ, nên dùng bàn ủi hơi nước. Với các sản phẩm có in/thêu: không là/ủi trực tiếp lên khu vực in thêu rất dễ
+      làm hư hình in hoặc hình thêu<br><br><br>
+
+      <p style="font-weight: bold;">CAM KẾT CỦA SHOP</p><br><br>
+
+      <p style="margin-left: 80px;"> – Sản phẩm chuẩn chất lượng, đúng với hình ảnh và video mà shop cung cấp với giá cả
+        tốt trên thị trường.<br><br>
+
+        – Dịch vụ khách hàng chu đáo, nhiệt tình, tận tâm.<br><br>
+
+        Trả sản phẩm nếu có lỗi từ nhà sản xuất theo quy định của shop<br><br>
+
+        1. Điều kiện áp dụng (trong vòng 03 ngày kể từ khi nhận sản phẩm):<br><br>
+
+        – Sản phẩm phải còn nguyên, chưa qua sử dụng, giặt tẩy, không bị bẩn hoặc bị hư hỏng bởi các tác nhân bên
+        ngoài.<br><br>
+
+        – Sản phẩm hư hỏng do vận chuyển hoặc do nhà sản xuất.<br><br>
+
+        – Không đủ số lượng, không đủ bộ như trong đơn hàng.<br><br>
+
+        2. Trường hợp không đủ điều kiện áp dụng chính sách:<br><br>
+
+        – Quá 03 ngày kể từ khi Quý khách nhận hàng.<br><br>
+
+        – Gửi lại hàng không đúng mẫu mã, không phải hàng của shop, mất tag của sản phẩm.<br><br>
+
+        – Đặt nhầm sản phẩm, chủng loại, không thích, không hợp,…<br><br>
+
+        3. Hoàn tiền cho khách hàng :<br><br>
+
+        – Khách hàng sẽ được nhân viên của cửa hàng gọi điện để chuyển lại tiền cho khách hàng sau 2 - 3 ngày làm việc
+        .<br><br>
+
+        – Sau khoảng thời gian đó mà khách hàng không nhận được tiền hoàn mong quý khách liên hệ đến của hàng để được
+        hoàn lại tiền .<br><br>
+
+
+      </p>
+    </div>
+  </div>
+
+
+  <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+  <script src="lib/easing/easing.min.js"></script>
+  <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+  <script src="mail/jqBootstrapValidation.min.js"></script>
+  <script src="mail/contact.js"></script>
+
+  <script src="js/main.js"></script>
+</body>
+<style>
+  #animated-button {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease-out;
+  }
+
+  #animated-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 10);
+  }
+
+  #animated-button1 {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease-out;
+  }
+
+  #animated-button1:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 10);
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  .custom-radio-button {
+    display: inline-block;
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 40px;
+  }
+
+  .radio-button {
+    position: absolute;
+    top: 35%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 30px;
+    border-radius: 20px;
+    border: 2px solid black;
+
+  }
+
+  .radio-button:hover {
+    /* transform: scale(1.1); */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 10);
+  }
+
+  input[type="radio"]:checked+.radio-button {
+    background-color: black;
+    color: white;
+  }
+
+  input[type="radio"]:checked+.custom-radio-button {
+    color: blue;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+</style>
+
+</html>

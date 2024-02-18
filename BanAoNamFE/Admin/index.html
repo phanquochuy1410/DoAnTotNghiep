@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myModule">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>𝓐𝓝𝓘𝓜𝓔 - Quản lý</title>
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+  <link href="css/styles.css" rel="stylesheet" />
+  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css" />
+  <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css" />
+  <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/util.css" />
+  <link rel="stylesheet" type="text/css" href="css/styles.css" />
+  <link rel="stylesheet" type="text/css" href="doc/css/main.css" />
+  <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/main.css" />
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="sb-nav-fixed" ng-controller="indexController">
+  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand ps-3" href="/Admin/src/page/trang-chu.html">𝓐𝓝𝓘𝓜𝓔</a>
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+      <i class="fas fa-bars"></i>
+    </button>
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+          <li>
+            <a ng-click="detail($event,nhanVien.id)" class="dropdown-item" class="login100-form-btn"
+              data-bs-toggle="modal" href="#staticBackdrop2">
+              Thông tin cá nhân
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="/Admin/src/page/dang-nhap.html">Đăng xuất</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <div>
+      <span style="color: white;">{{nhanVien.ho}} {{nhanVien.tenDem}} {{nhanVien.ten}}</span>
+    </div>
+  </nav>
+  
+  <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="TTKH">
+                <h3 style="text-align: center">Thông tin nhân viên</h3>
+                <div class="row">
+                  <div class="col-6">
+                    Họ và tên :
+                    <input type="text" class="form-control" aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm" ng-model="x.ho" />
+                  </div>
+                  <div class="col-6">
+                    Số điện thoại :
+                    <input type="text" class="form-control" aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm" ng-model="x.soDienThoai" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    Ngày sinh :
+                    <input type="text" class="form-control" aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm" ng-model="x.ngaySinh" />
+                  </div>
+                  <div class="col-6">
+                    Giới tính :<br />
+                    <input type="radio" value="1" name="gioiTinh" id="1" ng-model="x.gioiTinh"
+                      ng-checked="x.gioiTinh == '1' ? 'checked' : ''" />
+                    <label for="1">Nam</label>
+                    <input type="radio" value="0" name="gioiTinh" id="0" ng-model="x.gioiTinh"
+                      ng-checked="x.gioiTinh == '0' ? 'checked' : ''" />
+                    <label for="0">Nữ</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    Email :
+                    <input type="text" class="form-control" aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm" ng-model="x.email" />
+                  </div>
+                  <div class="col-6">
+                    Mật khẩu :
+                    <input type="text" class="form-control" aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm" ng-model="x.matKhau" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    Địa chỉ :
+                    <input type="text" class="form-control" aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm" ng-model="x.diaChi" />
+                  </div>
+                  <div class="col-6">
+                    Chức vụ : <br />
+                    <input type="radio" value="1" name="chucVu" id="1" ng-model="x.chucVu"
+                      ng-checked="x.chucVu == '1' ? 'checked' : ''" />
+                    <label for="1">Nhân viên</label>
+                    <input type="radio" value="0" name="chucVu" id="0" ng-model="x.chucVu"
+                      ng-checked="x.chucVu == '0' ? 'checked' : ''" />
+                    <label for="0">Quản lý</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Đóng
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+      <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+          <div class="nav">
+            <div class="sb-sidenav-menu-heading">Quản lý</div>
+            <a class="nav-link" href="#mua-tai-quay">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-columns"></i>
+              </div>
+              Bán hàng tại quầy
+            </a>
+            <a class="nav-link" href="#thong-ke-ban-chay">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-columns"></i>
+              </div>
+              Thống kê
+            </a>
+            <a class="nav-link" href="#donHang">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-columns"></i>
+              </div>
+              Đơn hàng
+            </a>
+            <a class="nav-link" href="#chi-tiet-san-pham">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-columns"></i>
+              </div>
+              Chi tiết sản phẩm
+            </a>
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
+              aria-expanded="false" aria-controls="collapseLayouts">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-columns"></i>
+              </div>
+              Thuộc tính
+              <div class="sb-sidenav-collapse-arrow">
+                <i class="fas fa-angle-down"></i>
+              </div>
+            </a>
+            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+              <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="#sanPham">Sản phẩm</a>
+                <a class="nav-link" href="#kichCo">Kích cỡ</a>
+                <a class="nav-link" href="#hang">Hãng</a>
+                <a class="nav-link" href="#mauSac">Màu sắc</a>
+                <a class="nav-link" href="#theLoai">Thể loại</a>
+                <a class="nav-link" href="#chatLieu">Chất liệu</a>
+              </nav>
+            </div>
+
+            <a class="nav-link" href="#nhan-vien">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-columns"></i>
+              </div>
+              Nhân viên
+            </a>
+            <a class="nav-link" href="#khach-hang">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-columns"></i>
+              </div>
+              Khách hàng
+            </a>
+
+            <a class="nav-link" href="#khuyenMai">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-columns"></i>
+              </div>
+              Khuyến mại
+            </a>
+
+            <a class="nav-link" href="#dgsp-xu-ly">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-columns"></i>
+              </div>
+              Đánh giá sản phẩm
+            </a>
+
+            <div class="sb-sidenav-footer">
+              <div class="small" style="font-size: 18px">
+                Đăng nhập với tư cách : Quản lý
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div id="layoutSidenav_content">
+      <div ng-view=""></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+  <script src="js/scripts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+  <script src="assets/demo/chart-area-demo.js"></script>
+  <script src="assets/demo/chart-bar-demo.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+    crossorigin="anonymous"></script>
+  <script src="js/datatables-simple-demo.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+  <script src="./src/controller/anh.js"></script>
+  <script src="./lib/angular.min.js"></script>
+  <script src="./lib/angular-route.js"></script>
+  <script src="./js/FileSaver.js"></script>
+  <script src="./js/FileSaver.min.js"></script>
+  <script src="./js/ng-file-upload-shim.min.js"></script>
+  <script src="./js/ng-file-upload.min.js"></script>
+  <script src="./src/controller/thongKe.js"></script>
+  <script src="./src/controller/chatLieu.js"></script>
+  <script src="./src/controller/hang.js"></script>
+  <script src="./src/controller/kichCo.js"></script>
+  <script src="./src/controller/hoa-don-tra-hang.js"></script>
+  <script src="./src/controller/hoa-don-da-xu-ly.js"></script>
+  <script src="./src/controller/mauSac.js"></script>
+  <script src="./src/controller/theLoai.js"></script>
+  <script src="./src/controller/sanPham.js"></script>
+  <script src="./src/controller/khuyenmai.js"></script>
+  <script src="./src/controller/nhanVien.js"></script>
+  <script src="./src/controller/khachHang.js"></script>
+  <script src="./src/controller/ctsp/chiTietSanPham.js"></script>
+  <script src="./src/controller/ctsp/formCTSP.js"></script>
+  <script src="./src/controller/anh.js"></script>
+  <script src="./src/controller/ng-file-upload-all.js"></script>
+  <script src="./src/controller/muaHangTaiQuay.js"></script>
+  <script src="./src/controller/thongKeBanChay.js"></script>
+  <script src="./src/controller/thongKe.js"></script>
+  <script src="./src/controller/thongKeThang.js"></script>
+  <script src="./src/controller/thongKeNam.js"></script>
+  <script src="./src/controller/thongKeSanPham.js"></script>
+  <script src="./src/controller/thongKeNgay.js"></script>
+  <script src="./src/controller/hoaDonChoGiao.js"></script>
+  <script src="./src/controller/hoaDonDangGiao.js"></script>
+  <script src="./src/controller/hoaDonHuy.js"></script>
+  <script src="./src/controller/hoaDonHoanThanh.js"></script>
+  <script src="./src/controller/hoaDonChoXacNhan.js"></script>
+  <script src="./src/controller/danhGiaSanPhamXuLy.js"></script>
+  <script src="./src/controller/danhGiaSanPhamHienThi.js"></script>
+  <script src="./src/controller/danhGiaSanPhamSanPham.js"></script>
+  <script src="./src/controller/danhGiaSanPhamAn.js"></script>
+  <script src="./src/config/api.js"></script>
+  <script src="./src/route.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://cdn.rawgit.com/serratus/quaggaJS/0.12.1/dist/quagga.min.js"></script>
+  <script>
+
+    if ("WebSocket" in window) {
+      (function () {
+        function refreshCSS() {
+          var sheets = [].slice.call(document.getElementsByTagName("link"));
+          var head = document.getElementsByTagName("head")[0];
+          for (var i = 0; i < sheets.length; ++i) {
+            var elem = sheets[i];
+            var parent = elem.parentElement || head;
+            parent.removeChild(elem);
+            var rel = elem.rel;
+            if (
+              (elem.href && typeof rel != "string") ||
+              rel.length == 0 ||
+              rel.toLowerCase() == "stylesheet"
+            ) {
+              var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, "");
+              elem.href =
+                url +
+                (url.indexOf("?") >= 0 ? "&" : "?") +
+                "_cacheOverride=" +
+                new Date().valueOf();
+            }
+            parent.appendChild(elem);
+          }
+        }
+        var protocol =
+          window.location.protocol === "http:" ? "ws://" : "wss://";
+        var address =
+          protocol + window.location.host + window.location.pathname + "/ws";
+        var socket = new WebSocket(address);
+        socket.onmessage = function (msg) {
+          if (msg.data == "reload") window.location.reload();
+          else if (msg.data == "refreshcss") refreshCSS();
+        };
+        if (
+          sessionStorage &&
+          !sessionStorage.getItem("IsThisFirstTime_Log_From_LiveServer")
+        ) {
+          console.log("Live reload enabled.");
+          sessionStorage.setItem("IsThisFirstTime_Log_From_LiveServer", true);
+        }
+      })();
+    } else {
+      console.error(
+        "Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading."
+      );
+    }
+  </script>
+</body>
+
+</html>

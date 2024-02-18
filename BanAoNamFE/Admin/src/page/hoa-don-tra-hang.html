@@ -1,0 +1,443 @@
+<section>
+  <div class="container-fluid px-4">
+    <div class="card">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link" href="#donHang"
+              >Chờ Xác Nhận
+              <span class="badge text-bg-success">{{countHDXN}}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#choGiao"
+              >Chờ giao hàng
+              <span class="badge text-bg-success">{{countHDCG}}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#dangGiao"
+              >Đang giao hàng
+              <span class="badge text-bg-success">{{countHDDG}}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#hoanThanh"
+              >Hoàn Thành
+              <span class="badge text-bg-success">{{countHDHT}}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#huy"
+              >Đơn hủy hàng
+              <span class="badge text-bg-success">{{countHDH}}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#traHang"
+              >Đơn trả hàng
+              <span class="badge text-bg-success">{{countHDTH}}</span>
+            </a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#xuLy">Đã xử lý
+              <span class="badge text-bg-success">{{countHDXL}}</span>
+            </a>
+          </li> -->
+        </ul>
+      </div>
+      <br />
+      <br />
+      <div class="card mb-4">
+        <div class="card-body">
+          <div>
+            <input
+              class="form-control"
+              ng-model="search"
+              style="width: 200px"
+              type="text"
+              placeholder="Tìm kiếm..."
+              ng-change="timKiem()"
+            />
+            <br />
+            <div
+              class="offcanvas offcanvas-end"
+              tabindex="-1"
+              id="offcanvasRight"
+              aria-labelledby="offcanvasRightLabel"
+            >
+              <div class="offcanvas-header">
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="offcanvas"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="offcanvas-body">
+                <div>
+                  Tìm Theo Ngày :
+                  <input
+                    type="text"
+                    class="form-control"
+                    ng-model="searchNgay"
+                    style="width: 200px"
+                    aria-describedby="basic-addon1"
+                    placeholder="Nhập ngày"
+                    ng-change="timNgay()"
+                  />
+                  <br />
+                </div>
+                <br />
+                <div>
+                  Tìm Theo Khoảng Ngày :
+                  <br />
+                  <input
+                    class="form-control"
+                    type="text"
+                    ng-change="timKhoangNgay()"
+                    ng-model="batDau"
+                    placeholder="Ngày bắt đầu"
+                    style="width: 150px; float: left"
+                  />
+                  <h5 style="float: left; margin-top: 10px">--</h5>
+                  <input
+                    class="form-control"
+                    type="text"
+                    ng-change="timKhoangNgay()"
+                    ng-model="ketThuc"
+                    placeholder="Ngày kết thúc"
+                    style="width: 150px"
+                  />
+                  <br />
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-center">Danh Sách Đơn Hàng</h3>
+          <div class="tbHD container">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="table-secondary">
+                  <!-- <th></th> -->
+                  <th scope="col">Mã</th>
+                  <th scope="col">Tổng giá</th>
+                  <th scope="col">Số Điện Thoại</th>
+                  <th scope="col">Tên Người Nhận</th>
+                  <th scope="col">Người Xác Nhận</th>
+                  <th scope="col">Hình thức thanh toán</th>
+                  <th scope="col">Lý do</th>
+                  <th scope="col">Ngày tạo</th>
+                  <th scope="col">Ngày trả hàng</th>
+                  <th scope="col">Tình Trạng</th>
+                  <th scope="col">Hành động</th>
+                </tr>
+              </thead>
+              <tbody ng-repeat="hd in listHD">
+                <tr>
+                  <!-- <td width="10">
+                    <input type="checkbox" ng-click="checkId(hd.idHoaDon)" ng-checked="checkBoxView.get(hd.idHoaDon) == hd.idHoaDon ? 'checked' : ''"/>
+                  </td> -->
+                  <td>{{hd.maHoaDon}}</td>
+                  <td>{{hd.tongTien + hd.tienShip | currency:'':0}}</td>
+                  <td>{{hd.soNguoiNhan}}</td>
+                  <td>{{hd.tenNguoiNhan}}</td>
+                  <td>{{hd.nguoiXacNhan}}</td>
+                  <td>{{hd.hinhThucThanhToan == 0 ? "Trả sau":"Vnpay"}}</td>
+                  <td>{{hd.lyDo}}</td>
+                  <td>{{hd.ngayTao | date : "dd-MM-yyyy"}}</td>
+                  <td>{{hd.ngayNhan | date : "dd-MM-yyyy"}}</td>
+                  <td>{{hd.tinhTrang == 0 ? "Chưa xử lý" : "Đã xử lý"}}</td>
+                  <td class="text-center">
+                    <a
+                      href="#/detail/{{hd.idHoaDon}}"
+                      ng-click="detail($event,$index,hd)"
+                    >
+                      <button
+                        type="button"
+                        class="btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"
+                      >
+                        👁️‍🗨️
+                      </button></a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div
+            class="modal fade"
+            id="staticBackdrop"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-xl modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                    Chi tiết Đơn Hàng
+                  </h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-5">
+                      <div class="TTKH">
+                        <h3 style="text-align: center">Thông Tin Đơn Hàng</h3>
+                        <div class="row">
+                          <div class="col-6">
+                            Người Đặt :
+                            <input
+                              type="text"
+                              class="form-control"
+                              aria-label="Sizing example input"
+                              aria-describedby="inputGroup-sizing-sm"
+                              ng-model="x.tenNguoiDat"
+                            />
+                          </div>
+                          <div class="col-6">
+                            Số Điện Thoại :
+                            <input
+                              type="text"
+                              class="form-control"
+                              aria-label="Sizing example input"
+                              aria-describedby="inputGroup-sizing-sm"
+                              ng-model="x.soNguoiDat"
+                            />
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-6">
+                            Người Nhận
+                            <input
+                              type="text"
+                              class="form-control"
+                              aria-label="Sizing example input"
+                              aria-describedby="inputGroup-sizing-sm"
+                              ng-model="x.tenNguoiNhan"
+                            />
+                          </div>
+                          <div class="col-6">
+                            Số Điện Thoại :
+                            <input
+                              type="text"
+                              class="form-control"
+                              aria-label="Sizing example input"
+                              aria-describedby="inputGroup-sizing-sm"
+                              ng-model="x.soDienThoai"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-6">
+                            Người Bán :
+                            <input
+                              type="text"
+                              class="form-control"
+                              aria-label="Sizing example input"
+                              aria-describedby="inputGroup-sizing-sm"
+                              ng-model="x.tenNguoiBan"
+                            />
+                          </div>
+                          <div class="col-6">
+                            Mã Đơn Hàng :
+                            <input
+                              type="text"
+                              class="form-control"
+                              aria-label="Sizing example input"
+                              aria-describedby="inputGroup-sizing-sm"
+                              ng-model="x.ma"
+                            />
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-6">
+                            Địa Chỉ :
+                            <input
+                              type="text"
+                              class="form-control"
+                              aria-label="Sizing example input"
+                              aria-describedby="inputGroup-sizing-sm"
+                              placeholder="Thành Phố"
+                              ng-model="x.thanhPho"
+                            />
+                            <input
+                              type="text"
+                              class="form-control"
+                              aria-label="Sizing example input"
+                              aria-describedby="inputGroup-sizing-sm"
+                              placeholder="Quận"
+                              ng-model="x.quan"
+                            />
+                            <input
+                              type="text"
+                              class="form-control"
+                              aria-label="Sizing example input"
+                              aria-describedby="inputGroup-sizing-sm"
+                              placeholder="Phường"
+                              ng-model="x.phuong"
+                            />
+                          </div>
+                          <div class="col-6">
+                            <br />
+                            <input
+                              type="text"
+                              class="form-control dcct"
+                              aria-label="Sizing example input"
+                              aria-describedby="inputGroup-sizing-sm"
+                              placeholder="Địa chỉ cụ thể"
+                              ng-model="x.diaChiCuThe"
+                            />
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-6">
+                            Phương Thức Thanh Toán :
+                            <br />
+                            <input
+                              type="text"
+                              class="form-control"
+                              aria-label="Sizing example input"
+                              aria-describedby="inputGroup-sizing-sm"
+                              ng-model="x.hinhThucThanhToan == 0 ? 'Trả Sau' : 'VnPay'"
+                            />
+                          </div>
+                          <div class="col-3">
+                            Tiền ship :
+                            <br />
+                            <input
+                              type="text"
+                              class="form-control"
+                              aria-label="Sizing example input"
+                              aria-describedby="inputGroup-sizing-sm"
+                              ng-model="x.ship"
+                            />
+                          </div>
+                          <div class="col-3">
+                            Tổng Tiền :
+                            <br />
+                            <input
+                              type="text"
+                              class="form-control"
+                              aria-label="Sizing example input"
+                              aria-describedby="inputGroup-sizing-sm"
+                              ng-model="x.gia"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-7">
+                      <h3 class="TTGH">Thông Tin Giỏ Hàng</h3>
+                      <table class="table">
+                        <thead>
+                          <tr class="table-secondary">
+                            <th scope="col">Ảnh</th>
+                            <th scope="col">Sản Phẩm</th>
+                            <th scope="col">Thông tin sản phẩm</th>
+                            <th scope="col">Số Lượng</th>
+                            <th scope="col">Đơn Giá</th>
+                            <th scope="col">Khuyến Mãi</th>
+                            <th scope="col">Thành Tiền</th>
+                          </tr>
+                        </thead>
+                        <tbody ng-repeat="hdct in listHDCT">
+                          <tr>
+                            <td>
+                                <img ng-if="hdct.anh != null" src="/Admin/images/{{hdct.anh}}" style="width: 50px" />
+                                <img ng-if="hdct.anh == null && hdct.anh2 != null" src="/Admin/images/{{hdct.anh2}}" style="width: 50px" />
+                                <img ng-if="hdct.anh == null && hdct.anh2 == null && hdct.anh3 != null" src="/Admin/images/{{hdct.anh3}}" style="width: 50px" />
+                            </td>
+                            <td>{{hdct.tenSanPham}}</td>
+                            <td>
+                              Màu : {{hdct.mauSac}} <br />
+                              Kích cỡ : {{hdct.kichCo}}
+                            </td>
+                            <td>{{hdct.soLuong}}</td>
+                            <td>{{hdct.thanhTien | currency:'':0}}</td>
+                            <td>
+                              {{hdct.khuyenMai == null ? "0" : hdct.khuyenMai |
+                              currency:'':0}}
+                            </td>
+                            <!-- <td>{{hdct.thanhTien | currency:'':0}}</td> -->
+                            <td>
+                              {{(hdct.thanhTien * hdct.soLuong) -
+                              (hdct.khuyenMai * hdct.soLuong) | currency:'':0}}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    ng-disabled="checkTinhTrang"
+                    class="btn btn-secondary"
+                    ng-click="xuLyHoanTra()"
+                    data-bs-dismiss="modal"
+                  >
+                    Cập nhật
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="myAlert3" class="modal fade" role="dialog" data-bs-backdrop="false">
+        <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px">
+          <div class="modal-content">
+            <div class="modal-body">
+              ✅ Thành công !
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          ng-click="prevPage()"
+        >
+          <<
+        </button>
+        <button
+          type=" button"
+          class="btn btn-outline-primary"
+          ng-click="prevPages()"
+        >
+          |<
+        </button>
+        <button
+          type=" button"
+          class="btn btn-outline-primary"
+          ng-click="nextPages()"
+        >
+          >|
+        </button>
+        <button
+          type=" button"
+          class="btn btn-outline-primary"
+          ng-click="nextPage()"
+        >
+          >>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

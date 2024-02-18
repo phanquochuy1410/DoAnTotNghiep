@@ -1,0 +1,289 @@
+<section class="ph25810-ctsp">
+  <!-- table -->
+  <div class="container-fluid px-4">
+    <h1 class="mt-4">Chi tiết sản phẩm</h1>
+    <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item active">Chi tiết sản phẩm</li>
+    </ol>
+    <div class="card mb-4"></div>
+  </div>
+  <main class="app-content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tile">
+          <div class="tile-body">
+            <div class="row element-button">
+              <div class="col-sm-2">
+                <a class="btn btn-add btn-sm" href="#add-form-chi-tiet-san-pham/add" title="Thêm"><i
+                    class="fas fa-plus"></i>
+                  Tạo mới sản phẩm</a>
+              </div>
+              <div class="col-sm-2">
+                <button class="btn btn-excel btn-sm" ng-click="exportData()"><i class="fas fa-file-excel"></i>Xuất Excel
+                </button>
+              </div>
+              <div class="col-sm-2">
+                <button type="button" class="btn btn-excel btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <i class="fas fa-file-excel"></i> Nhập Excel
+                </button>
+              </div>
+              <div class="col-md-3">
+                <label for="">Giá tiền:</label>
+                <input class="form-control" type="number" ng-model="min" style="display: inline-block; width: 80%;"
+                  ng-change="newSearch(findByElement, true)">
+              </div>
+              
+              <div class="col-md-3">
+                <input class="form-control" type="number" ng-model="max" style="display: inline-block; width: 80%;"
+                  ng-change="newSearch(findByElement, true)">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-2">
+                <input class="form-control" type="text" ng-model="findByElement" placeholder="{{tenSan}}"
+                  ng-change="newSearch(findByElement, true)">
+              </div>
+              <div class="form-group col-md-2">
+                <select class="form-control" id="exampleSelect1" ng-model="chatLieu"
+                  ng-change="newSearch(findByElement, true)">
+                  <option ng-value="''">---Chất Liệu---</option>
+                  <option ng-repeat="cl in chatLieus" ng-value="cl.ten">{{cl.ten}}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <select class="form-control" id="exampleSelect1" ng-model="kichCo" ng-change="newSearch(findByElement, true)">
+                  <option ng-value="''">---Kích cỡ---</option>
+                  <option ng-repeat="kc in kichCos" ng-value="kc.ten">{{kc.ten}}</option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <select class="form-control" id="exampleSelect1" ng-model="mauSac" ng-change="newSearch(findByElement, true)">
+                  <option ng-value="''">---Màu sắc---</option>
+                  <option ng-repeat="ms in mauSacs" ng-value="ms.ten">{{ms.ten}}</option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <select class="form-control" id="exampleSelect1" ng-model="hang" ng-change="newSearch(findByElement, true)">
+                  <option ng-value="''">---Hãng---</option>
+                  <option ng-repeat="h in hangs" ng-value="h.ten">{{h.ten}}</option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <select class="form-control" id="exampleSelect1" ng-model="theLoai" ng-change="newSearch(findByElement, true)">
+                  <option ng-value="''">---Thể loại---</option>
+                  <option ng-repeat="tl in theLoais" ng-value="tl.ten">{{tl.ten}}</option>
+                </select>
+              </div>
+            </div>
+            <table class="table table-hover table-bordered" id="sampleTable"
+              style="box-sizing: content-box; margin: 0px;">
+              <thead style="background-color: #eee;" id="fix">
+                <tr>
+                  <th>Sản Phẩm</th>
+                  <th>Giá</th>
+                  <th>Số lượng</th>
+                  <th>Giá khuyến mãi</th>
+                  <th>chất liệu</th>
+                  <th>Kích cỡ</th>
+                  <th>Ảnh</th>
+                  <th>Màu sắc</th>
+                  <th>Thể loại</th>
+                  <th>Hãng</th>
+                  <th>Trạng thái</th>
+                  <th>Chức năng</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="ctsp in listCTSP">
+                  <td>{{ctsp.sanPham}}</td>
+                  <td>{{ctsp.gia | currency:'':0}}</td>
+                  <td>{{ctsp.soLuong}}</td>
+                  <td>{{ctsp.giaKhuyenMai | currency:'':0}}</td>
+                  <td>{{ctsp.chatLieu}}</td>
+                  <td>{{ctsp.kichCo}}</td>
+                  <td>
+                    <div class="row">
+                      <div ng-if="ctsp.anh != null" class="col-md-6">
+                        <img src="./images/{{ctsp.anh}}" alt="" width="100px" height="80px">
+                      </div>
+                      <div ng-if="ctsp.anh == null && ctsp.anh2 != null" class="col-md-6">
+                        <img src="./images/{{ctsp.anh2}}" alt="" width="100px" height="80px">
+                      </div>
+                      <div ng-if="ctsp.anh == null && ctsp.anh2 == null && ctsp.anh3 != null" class="col-md-6">
+                        <img src="./images/{{ctsp.anh3}}" alt="" width="100px" height="80px">
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{ctsp.mauSac}}</td>
+                  <td>{{ctsp.theLoai}}</td>
+                  <td>{{ctsp.hang}}</td>
+                  <td>
+                    <span>
+                      <button class="btn btn-light" ng-click="doiTT(ctsp.id, ctsp.trangThai)">
+                        {{ctsp.trangThai == 1 ? 'Còn hàng':'Hết hàng'}}
+                      </button>
+                    </span>
+                  </td>
+                  <td>
+                    <a ng-href="#update-form-chi-tiet-san-pham/{{ctsp.id}}" class="btn btn-primary btn-sm edit"
+                      type="button" title="Sửa" id="show-emp" style="margin: 0;"><i class="fas fa-edit"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div id="exportable" ng-show="false">
+              <table class="table table-hover table-bordered" id="sampleTable"
+                style="box-sizing: content-box; margin: 0px;">
+                <thead style="background-color: #eee;" id="fix">
+                  <tr>
+                    <th>sanPham</th>
+                    <th>gia</th>
+                    <th>soLuong</th>
+                    <th>chatLieu</th>
+                    <th>kichCo</th>
+                    <th>anh</th>
+                    <th>anh2</th>
+                    <th>anh3</th>
+                    <th>anh4</th>
+                    <th>anh5</th>
+                    <th>mauSac</th>
+                    <th>theLoai</th>
+                    <th>hangg</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="ctsp in listFull">
+                    <td>{{ctsp.sanPham}}</td>
+                    <td>{{ctsp.gia | currency:'':0}}</td>
+                    <td>{{ctsp.soLuong}}</td>
+                    <td>{{ctsp.chatLieu}}</td>
+                    <td>{{ctsp.kichCo}}</td>
+                    <td>
+                      <div ng-show="ctsp.anh != null" class="col-md-6">
+                        <label class="control-label">{{ctsp.anh}}</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div ng-show="ctsp.anh2 != null" class="col-md-6">
+                        <label class="control-label">{{ctsp.anh2}}</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div ng-show="ctsp.anh3 != null" class="col-md-6">
+                        <label class="control-label">{{ctsp.anh3}}</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div ng-show="ctsp.anh4 != null" class="col-md-6">
+                        <label class="control-label">{{ctsp.anh4}}</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div ng-show="ctsp.anh5 != null" class="col-md-6">
+                        <label class="control-label">{{ctsp.anh5}}</label>
+                      </div>
+                    </td>
+                    <td>{{ctsp.mauSac}}</td>
+                    <td>{{ctsp.theLoai}}</td>
+                    <td>{{ctsp.hang}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div style="text-align: center;">
+    <button type="button" class="btn btn-outline-primary" ng-click="prevPage(findByElement)">
+      << </button>
+        <button type=" button" class="btn btn-outline-primary" ng-click="prevPages(findByElement)"> |< </button>
+        <div style="display: contents;">{{pageNo + 1}} / {{totalPages + 1}}</div>
+            <button type=" button" class="btn btn-outline-primary" ng-click="nextPages(findByElement)"> >| </button>
+            <button type=" button" class="btn btn-outline-primary" ng-click="nextPage(findByElement)"> >> </button>
+  </div>
+
+  <!-- table -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Chi tiết đánh giá sản phẩm</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <!--  -->
+          <div class="container">
+            <div class="tbHD container">
+              <form>
+                <div class="row">
+                  <div class="col-md-6">
+                    <input type="file" id="ngexcelfile" />
+                  </div>
+                  <div class="col-md-2">
+                    <button class="btn btn-excel btn-sm" ng-click="READ()">Đọc dữ liệu</button>
+                  </div>
+                  <div class="col-md-2">
+                    <button class="btn btn-excel btn-sm" ng-click="SaveAll()">Nhập tất cả</button>
+                  </div>
+                </div>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr class="table-secondary">
+                      <th>Sản Phẩm</th>
+                      <th>giá</th>
+                      <th>số lượng</th>
+                      <th>chất liệu</th>
+                      <th>kích cỡ</th>
+                      <th>màu sắc</th>
+                      <th>thể loại</th>
+                      <th>Hãng</th>
+                      <th>Ảnh</th>
+                      <th>Ảnh2</th>
+                      <th>Ảnh3</th>
+                      <th>Ảnh4</th>
+                      <th>Ảnh5</th>
+                    </tr>
+                  </thead>
+                  <tbody ng-repeat="item in data">
+                    <tr>
+                      <td>{{item.sanPham}}</td>
+                      <td>{{item.gia | currency:'':0}}</td>
+                      <td>{{item.soLuong}}</td>
+                      <td>{{item.chatLieu}}</td>
+                      <td>{{item.kichCo}}</td>
+                      <td>{{item.mauSac}}</td>
+                      <td>{{item.theLoai}}</td>
+                      <td>{{item.hang}}</td>
+                      <td>{{item.anh}}</td>
+                      <td>{{item.anh2}}</td>
+                      <td>{{item.anh3}}</td>
+                      <td>{{item.anh4}}</td>
+                      <td>{{item.anh5}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+              <div style="text-align: center;">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #fix th {
+    vertical-align: top;
+  }
+</style>

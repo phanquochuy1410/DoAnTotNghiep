@@ -1,0 +1,264 @@
+<div class="col-lg-9">
+    <div style=" width:1450px ; height:600px">
+        <div class="carousel-inner">
+            <div class="slideshow" style="width: 1450px; height: 600px;">
+                <img ng-src="{{images[currentImageIndex]}}" style="width: 1450px; height: 600px;" alt="Slideshow Image">
+            </div>
+            <a class="carousel-control-prev" ng-click="prevImage()" data-slide="prev">
+                <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                    <span class="carousel-control-prev-icon mb-n2"></span>
+                </div>
+            </a>
+            <a class="carousel-control-next" ng-click="nextImage()" data-slide="next">
+                <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                    <span class="carousel-control-next-icon mb-n2"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5 pb-3">
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                <h1 class="fa fa-check text-primary m-0 mr-3"></h1>
+                <h5 class="font-weight-semi-bold m-0">Sản phẩm chất lượng</h5>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                <h1 class="fa fa-shipping-fast text-primary m-0 mr-2"></h1>
+                <h5 class="font-weight-semi-bold m-0">Miễn phí vận chuyển</h5>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                <h1 class="fas fa-exchange-alt text-primary m-0 mr-3"></h1>
+                <h5 class="font-weight-semi-bold m-0">Trả hàng</h5>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                <h1 class="fa fa-phone-volume text-primary m-0 mr-3"></h1>
+                <h5 class="font-weight-semi-bold m-0">Hỗ trợ 24/7</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="height: 900px;">
+    <div style="margin-left: 40px; float: left;">
+        <div style=" width:700px ; height:900px">
+            <div class="carousel-inner">
+                <div class="slideshow" style="width: 700px; height: 750px;">
+                    <img ng-src="{{image[currentImageIndexs]}}" style="width: 700px; height: 750px;"
+                        alt="Slideshow Image">
+                </div>
+                <a class="carousel-control-prev" ng-click="prevImages()" data-slide="prev">
+                    <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                        <span class="carousel-control-prev-icon mb-n2"></span>
+                    </div>
+                </a>
+                <a class="carousel-control-next" ng-click="nextImages()" data-slide="next">
+                    <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                        <span class="carousel-control-next-icon mb-n2"></span>
+                    </div>
+                </a>
+            </div>
+            <br>
+            <a href="#san-pham-moi" style="margin-left: 509px; margin-top: 770px;"><button type="button" class="btn btn-outline-primary" style="font-weight: bold;">Xem thêm sản phẩm</button></a>
+        </div>
+    </div>
+
+        <div class="text-center mb-2">
+            <h2 class="section-title px-5"><span class="px-2">Sản phẩm mới nhất </span></h2>
+        </div>
+        <div class="row px-xl-2 pb-3">
+            <div class="col-lg-6 col-md-6 col-sm-12 pb-1" ng-repeat="ctsp in listTop4">
+                <div class="card product-item border-0 mb-2">
+                    <div class="image-container">
+                        <div ng-if="ctsp.khuyenMai != 0" class="triangles"></div>
+                        <div ng-if="ctsp.khuyenMai != 0" class="spanss">{{(ctsp.khuyenMai / ctsp.gia) * 100 | currency:'':0}}%</div>
+                        <img ng-if="ctsp.anh != null" class="img-fluid w-100" src="img/{{ctsp.anh}}" style="width: 150px; height: 300px;">
+                        <img ng-if="ctsp.anh == null && ctsp.anh2 != null" class="img-fluid w-100" src="img/{{ctsp.anh2}}" style="width: 150px; height: 300px;">
+                        <img ng-if="ctsp.anh == null && ctsp.anh2 == null && ctsp.anh3 != null" class="img-fluid w-100" src="img/{{ctsp.anh3}}" style="width: 150px; height: 300px;">
+                        <div class="overlay">
+                            <a style="text-decoration: none;" href="#detail/{{ctsp.id}}">XEM THÊM</a>
+                        </div>
+                    </div>
+                    <div class="card-body border-left border-right text-center p-0 pt-2 pb-3">
+                        <h6 class="text-truncate mb-3">{{ctsp.sanPham}}</h6>
+                        <div class="d-flex justify-content-center">
+                            <h6 ng-if="ctsp.khuyenMai == 0">{{ctsp.gia | currency:'':0}}đ</h6>
+                            <h6 ng-if="ctsp.khuyenMai != 0" class="text-muted ml-2" ng-if="spm.giaKM != 0" >
+                                <span style="color: black;">{{ctsp.gia - ctsp.khuyenMai | currency:'':0}}đ</span>
+                                <del style=" color: red; font-size: 12px;">{{ctsp.gia | currency:'':0}}đ</del></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+</div>
+
+<div style="height: 1000px;">
+    <div style="margin-left: 40px;">
+        <div style="margin-left: 40px; float: right;">
+            <div style=" width:700px ; height:1000px">
+                <div class="carousel-inner">
+                    <div class="slideshow" style="width: 700px; height: 800px;">
+                        <img ng-src="{{imagess[currentImageIndexss]}}" style="width: 700px; height: 800px;"
+                            alt="Slideshow Image">
+                    </div>
+                    <a class="carousel-control-prev" ng-click="prevImagess()" data-slide="prev">
+                        <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                            <span class="carousel-control-prev-icon mb-n2"></span>
+                        </div>
+                    </a>
+                    <a class="carousel-control-next" ng-click="nextImagess()" data-slide="next">
+                        <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                            <span class="carousel-control-next-icon mb-n2"></span>
+                        </div>
+                    </a>
+                </div>
+                <br>
+            <!-- <a href="#cua-hang-khuyen-mai" style="margin-right: 509px; margin-top: 770px;"><button type="button" class="btn btn-outline-primary" style="font-weight: bold;">Xem thêm sản phẩm</button></a> -->
+            </div>
+        </div>
+    </div>
+    <!-- <div class="container-fluid pt-5"> -->
+        <div class="text-center mb-2">
+            <h2 class="section-title px-5"><span class="px-2">Sản phẩm bán chạy</span></h2>
+        </div>
+        <div class="row px-xl-2 pb-3">
+            <div class="col-lg-6 col-md-6 col-sm-12 pb-1" ng-repeat="ctsp in listTop8">
+                <div class="card product-item border-0 mb-2">
+                    <div class="image-container">
+                        <div ng-if="ctsp.khuyenMai != 0" class="triangles"></div>
+                        <div ng-if="ctsp.khuyenMai != 0" class="spanss">{{(ctsp.khuyenMai / ctsp.gia) * 100 | currency:'':0}}%</div>
+                        <img ng-if="ctsp.anh != null" class="img-fluid w-100" src="img/{{ctsp.anh}}" style="width: 150px; height: 300px;">
+                        <img ng-if="ctsp.anh == null && ctsp.anh2 != null" class="img-fluid w-100" src="img/{{ctsp.anh2}}" style="width: 150px; height: 300px;">
+                        <img ng-if="ctsp.anh == null && ctsp.anh2 == null && ctsp.anh3 != null" class="img-fluid w-100" src="img/{{ctsp.anh3}}" style="width: 150px; height: 300px;">
+                        <div class="overlay">
+                            <a style="text-decoration: none;" href="#detail/{{ctsp.id}}">XEM THÊM</a>
+                        </div>
+                    </div>
+                    <div class="card-body border-left border-right text-center p-0 pt-2 pb-3">
+                        <h6 class="text-truncate mb-3">{{ctsp.sanPham}}</h6>
+                        <div class="d-flex justify-content-center">
+                            <h6 ng-if="ctsp.khuyenMai == 0">{{ctsp.gia | currency:'':0}}đ</h6>
+                            <h6 ng-if="ctsp.khuyenMai != 0" class="text-muted ml-2" ng-if="spm.giaKM != 0" >
+                                <span style="color: black;">{{ctsp.gia - ctsp.khuyenMai | currency:'':0}} đ</span>
+                                <del style=" color: red; font-size: 12px;">{{ctsp.gia | currency:'':0}} đ</del></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="text-align: center;">
+            <button type="button" class="btn btn-outline-primary" ng-click="prevPage()"><< </button>
+            <button type=" button" class="btn btn-outline-primary" ng-click="prevPages()"> |< </button>
+            <button type=" button" class="btn btn-outline-primary" ng-click="nextPages()"> >| </button>
+            <button type=" button" class="btn btn-outline-primary" ng-click="nextPage()"> >> </button>
+        </div> -->
+</div>
+
+<div class="col-lg-9">
+    <div style=" width:1450px ; height:600px">
+        <div class="carousel-inner">
+            <div class="slideshow" style="width: 1450px; height: 600px;">
+                <img ng-src="{{imagees[currentImageIndexes]}}" style="width: 1450px; height: 600px;" alt="Slideshow Image">
+            </div>
+            <a class="carousel-control-prev" ng-click="prevImagees()" data-slide="prev">
+                <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                    <span class="carousel-control-prev-icon mb-n2"></span>
+                </div>
+            </a>
+            <a class="carousel-control-next" ng-click="nextImagees()" data-slide="next">
+                <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                    <span class="carousel-control-next-icon mb-n2"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pt-5">
+    <div class="text-center mb-4">
+        <h2 class="section-title px-5"><span class="px-2">Sản Phẩm Khuyến Mại </span></h2>
+    </div>
+    <div class="row px-xl-5 pb-3">
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1" ng-repeat="ctsp in listSanPhamKhuyenMai">
+            <div class="card product-item border-0 mb-4">
+                <div class="image-container">
+                    <div class="triangle"></div>
+                    <div class="spans">{{ctsp.chietKhau}}%</div>
+                    <img ng-if="ctsp.tenAnh != null" class="img-fluid w-100" src="img/{{ctsp.tenAnh}}" style="width: 150px; height: 300px;">
+                    <img ng-if="ctsp.tenAnh == null && ctsp.tenAnh2 != null" class="img-fluid w-100" src="img/{{ctsp.tenAnh2}}" style="width: 150px; height: 300px;">
+                    <img ng-if="ctsp.tenAnh == null && ctsp.tenAnh2 == null && ctsp.tenAnh3 != null" class="img-fluid w-100" src="img/{{ctsp.tenAnh3}}" style="width: 150px; height: 300px;">
+                    <div class="overlay">
+                        <a style="text-decoration: none;" href="#detail/{{ctsp.id}}">XEM THÊM</a>
+                    </div>
+                </div>
+                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                    <h6 class="text-truncate mb-3">{{ctsp.tenSanPham }}</h6>
+                    <div class="d-flex justify-content-center">
+                        <h6>{{ctsp.gia - ctsp.giaKM | currency:'':0}} đ</h6>
+                        <h8 class="text-muted ml-2" style="font-size: 12px;" ><del style="color: red;">{{ctsp.gia | currency:'':0}}đ</del></h8>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+        <a href="#cua-hang-khuyen-mai"><button type="button" class="btn btn-outline-primary" style="font-weight: bold;">Xem thêm sản phẩm</button></a>
+    </div>
+    </div>
+</div>
+<style>
+    .discount-box {
+        position: relative;
+    }
+
+    .triangle {
+        position: absolute;
+        right: 0;
+        width: 0;
+        height: 0;
+        border-left: 50px solid transparent;
+        border-top: 50px solid red;
+    }
+
+    .triangles {
+        position: absolute;
+        right: 0;
+        width: 0;
+        height: 0;
+        border-left: 50px solid transparent;
+        border-top: 50px solid red;
+    }
+
+    .spans {
+        position: absolute;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        margin-left: 290px;
+        margin-top: 10px;
+        transform: rotate(45deg);
+
+    }
+    .spanss {
+        position: absolute;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        margin-left: 300px;
+        margin-top: 10px;
+        transform: rotate(45deg);
+
+    }
+</style>
+

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="barcodeApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Barcode Scanner</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://cdn.rawgit.com/lindell/JsBarcode/master/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.rawgit.com/serratus/quaggaJS/0.12.1/dist/quagga.min.js"></script>
+</head>
+<body ng-controller="BarcodeController">
+    <div id="barcode-scanner"></div>
+    <button ng-click="toggleScan()">Toggle Scan</button>
+    <div ng-if="barcodeResult">
+        <p>Scanned Barcode: {{ barcodeResult }}</p>
+    </div>
+
+    <script>
+        angular.module('barcodeApp', [])
+            .controller('BarcodeController', ['$scope', function($scope) {
+                $scope.scanning = false;
+                $scope.expectedBarcode = "123456789"; // Giá trị mã vạch mong muốn
+
+                $scope.toggleScan = function() {
+                    $scope.scanning = !$scope.scanning;
+
+                    if ($scope.scanning) {
+                        // Tạo mã vạch cho giá trị mong muốn
+                        JsBarcode("#barcode-scanner", $scope.expectedBarcode, {
+                            format: "CODE128",
+                            displayValue: false
+                        });
+
+                        // Khởi tạo QuaggaJS để quét
+                        Quagga.init({
+                            inputStream: {
+                                name: "Live",
+                                type: "LiveStream",
+                                target: document.querySelector('#barcode-scanner'),
+                                constraints: {
+                                    facingMode: "environment"
+                                },
+                            },
+                            decoder: {
+                                readers: ["ean_reader"]
+                            }
+                        }, function(err) {
+                            if (err) {
+                                console.error(err);
+                                return;
+                            }
+                            Quagga.start();
+                        });
+
+                        // Xử lý sự kiện khi quét được mã vạch
+                        Quagga.onDetected(function(result) {
+                            var scannedBarcode = result.code;
+                            if (scannedBarcode === $scope.expectedBarcode) {
+                                $scope.barcodeResult = scannedBarcode;
+                                $scope.$apply();
+                                Quagga.stop();
+                            }
+                        });
+                    } else {
+                        // Dừng QuaggaJS khi ngừng quét
+                        Quagga.stop();
+                        $scope.barcodeResult = "";
+                    }
+                };
+            }]);
+    </script>
+</body>
+</html>

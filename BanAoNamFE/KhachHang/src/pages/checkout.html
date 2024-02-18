@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="GioHang">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Giỏ Hàng</title>
+  <link rel="stylesheet" href="/KhachHang/css/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+</head>
+
+<body>
+  <header>
+    <div class="container bgcart">
+      <div class="content">
+        <h1>Thanh toán</h1>
+      </div>
+    </div>
+  </header>
+  <section ng-controller="CheckOutController" class="container" style="
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      ">
+    <div class="conte">
+      <ul>
+        <li>
+          <a href="/KhachHang/index.html">Trang chủ</a>
+        </li>
+        <li>></li>
+        <li>
+          <a href="/KhachHang/src/pages/gio-hang.html" ng-click="returnCart()">Giỏ Hàng</a>
+        </li>
+        <li>></li>
+        <li>
+          <a href="#">Thanh toán</a>
+        </li>
+      </ul>
+    </div>
+    <hr />
+    <div class="ttkh">
+      <div class="row">
+        <div class="col-7">
+          <h5>Thông tin khách hàng</h5>
+          <hr style="width: 50%" />
+          <p>Tên khách hàng : {{kh.ho + " " + kh.tenDem + " " + kh.ten}}</p>
+          <p>Số điện thoại : {{kh.sdt}}</p>
+          <p>Email : {{kh.email}}</p>
+          <p>
+            Địa chỉ : {{listDC.dcct + " " + listDC.phuong + " " + listDC.quan
+            + " " + listDC.thanhPho}}
+            <button type="button" class="btn btn-light" class="btn btn-primary" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">
+              🗺️
+            </button>
+          </p>
+          <!-- <span style="color:red" ng-if="checkFail">
+            <span>* Mời chọn màu sắc và kích cỡ !</span>
+          </span> -->
+
+          <a href="#" style="text-decoration: none" ng-click="nguoiKhacNhan()">
+            <p style="color: red">* Bạn không phải là người nhận hàng ?</p>
+          </a>
+          <div class="row" ng-show="showNguoiNhan">
+            <div class="col-6">
+              Người Nhận :
+              <input type="text" class="form-control" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm" ng-model="tenNguoiNhan" />
+            </div>
+            <div class="col-6">
+              Số Điện Thoại Người Nhận :
+              <input type="text" class="form-control" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm" ng-model="soNguoiNhan" />
+            </div>
+          </div>
+          <p></p>
+          <table class="table table-bordered" style="margin-top: 30px">
+            <tr class="text-center">
+              <th>Sản phẩm</th>
+              <th>Mô tả</th>
+              <th style="width: 8%">Số lượng</th>
+              <th>Giá Bán</th>
+              <th>Giá khuyến mại</th>
+              <th>Thành tiền</th>
+            </tr>
+            <tr ng-repeat="ghct in listGH">
+              <td>
+                <img ng-if="ghct.anh != null" class="img-fluid w-100" src="/KhachHang/img/{{ghct.anh}}" style="width: 80px; height: 150px" />
+                <img ng-if="ghct.anh == null && ghct.anh2 != null" class="img-fluid w-100" src="/KhachHang/img/{{ghct.anh2}}" style="width: 80px; height: 150px" />
+                <img ng-if="ghct.anh == null && ghct.anh2 == null && ghct.anh3 != null" class="img-fluid w-100" src="/KhachHang/img/{{ghct.anh3}}" style="width: 80px; height: 150px" />
+              </td>
+              <td>
+                <h5>{{ghct.ten}}</h5>
+                Mã: {{ghct.maSanPham}} <br />
+                Size: {{ghct.size}} , Màu: {{ghct.mau}} <br />
+                Hãng: {{ghct.hang}} , Chất liệu: {{ghct.chatLieu}}
+              </td>
+              <td>{{ghct.soLuong}}</td>
+              <td style="color: burlywood">{{ghct.gia | currency:'':0}} đ</td>
+              <td style="color: burlywood">
+                {{ghct.khuyenMai | currency:'':0}} đ
+              </td>
+              <td style="color: burlywood">
+                {{ghct.thanhTien | currency:'':0}} đ
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-3">
+          <div class="card hdc" style="width: 29rem">
+            <div class="card-body">
+              <h5 style="font-weight: bold">Hóa đơn của bạn</h5>
+              <hr />
+              <div class="row">
+                <div class="col-7">
+                  <h5 class="card-text" style="font-weight: bold">
+                    Sản phẩm
+                  </h5>
+                </div>
+                <div class="col-5">
+                  <h5 class="card-text" style="font-weight: bold">
+                    Thành tiền
+                  </h5>
+                </div>
+              </div>
+              <div class="row" ng-repeat="ghct in listGH">
+                <div class="col-7">
+                  <br />
+                  <p>
+                    Sản phẩm : {{ghct.ten}} <br />
+                    Size: {{ghct.size}} <br />
+                    Màu: {{ghct.mau}} <br />
+                    Hãng: {{ghct.hang}} <br />
+                    Chất liệu: {{ghct.chatLieu}}
+                  </p>
+                </div>
+                <div class="col-5">
+                  <br />
+                  {{ghct.thanhTien | currency:'':0}} đ
+                </div>
+              </div>
+              <div>
+                <hr />
+                <div class="row">
+                  <div style="color: burlywood" ng-model="TongTienHoaDon">
+                    <h5 style="color: blue; font-weight: bold; float: left">
+                      Tổng tiền thanh toán :
+                    </h5>
+                    <p style="
+                          color: red;
+                          font-weight: bold;
+                          font-size: 30px;
+                          margin-left: 270px;
+                        ">
+                      {{TongTienHoaDon | currency:'':0}} đ
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <button style="
+                    font-weight: bold;
+                    font-size: 25px;
+                    margin-top: 20px;
+                    color: blue; 
+                  " ng-click="checkThanhToan()" class="btn b1 btn-outline-warning" data-bs-toggle="modal"
+                href="#exampleModalToggle">
+                <img src="/KhachHang/img/thanh-toans.jpg" style="width: 100px; height: 50px; float: left" />
+                Thanh toán khi nhận hàng
+              </button>
+              <div class="modal fade" id="exampleModalToggle" aria-hidden="true"
+                aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div ng-show="checkFail">
+                      <div style="
+                          width: 200px;
+                          height: 200px;
+                          margin-left: 150px;
+                          margin-top: 50px;
+                        ">
+                        <img class="img-fluid w-100" src="/KhachHang/img/xac-nhan.jpg" />
+                      </div>
+                      <div style="text-align: center">
+                        <h2 style="color: gray; font-weight: bold">
+                          Nhập địa chỉ ?
+                        </h2>
+                        <h4 style="color: gray">Vui lòng nhập địa chỉ !</h4>
+                      </div>
+
+                      <div style="margin-top: 10px">
+                        <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close" style="
+                            width: 400px;
+                            height: 50px;
+                            margin-left: 40px;
+                            font-size: 20px;
+                            font-weight: bold;
+                          ">
+                          Xác nhận
+                        </button>
+                      </div>
+                    </div>
+                    <div ng-show="checkSoLuongFalse">
+                      <div style="
+                          width: 200px;
+                          height: 200px;
+                          margin-left: 150px;
+                          margin-top: 50px;
+                        ">
+                        <img class="img-fluid w-100" src="/KhachHang/img/xac-nhan.jpg" />
+                      </div>
+                      <div style="text-align: center">
+                        <h2 style="color: gray; font-weight: bold">
+                          Xin Lỗi !
+                        </h2>
+                        <h4 style="color: gray">Số lượng không đủ !</h4>
+                      </div>
+
+                      <div style="margin-top: 10px">
+                        <a href="/KhachHang/src/pages/gio-hang.html" ng-click="returnCart()"><button
+                            class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close" style="
+                            width: 400px;
+                            height: 50px;
+                            margin-left: 40px;
+                            font-size: 20px;
+                            font-weight: bold;
+                          ">
+                            Quay lại giỏ hàng
+                          </button></a>
+                      </div>
+                    </div>
+                    <div ng-show="checkTrue">
+                      <div style="
+                          width: 200px;
+                          height: 200px;
+                          margin-left: 150px;
+                          margin-top: 50px;
+                        ">
+                        <img class="img-fluid w-100" src="/KhachHang/img/xac-nhan.jpg" />
+                      </div>
+                      <div style="text-align: center">
+                        <h2 style="color: gray; font-weight: bold">
+                          Xác nhận thanh toán ?
+                        </h2>
+                        <h4 style="color: gray">Thanh toán khi nhận hàng</h4>
+                      </div>
+
+                      <div style="margin-top: 10px">
+                        <a href=""><button data-bs-dismiss="modal" aria-label="Close" class="btn btn-outline-primary"
+                            ng-click="thanhToan()" style="
+                              width: 170px;
+                              height: 50px;
+                              margin-left: 60px;
+                              font-size: 20px;
+                              font-weight: bold;
+                            ">
+                            Xác nhận
+                          </button></a>
+                        <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close" style="
+                            width: 170px;
+                            height: 50px;
+                            margin-left: 40px;
+                            font-size: 20px;
+                            font-weight: bold;
+                          ">
+                          Hủy
+                        </button>
+                      </div>
+                    </div>
+
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+              <div id="myAlertt" class="modal fade" role="dialog" data-bs-backdrop="false">
+                <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px">
+                  <div class="modal-content">
+                    <div class="modal-body">❌ Số lượng không đủ</div>
+                  </div>
+                </div>
+              </div>
+              <br />
+              <br />
+              <button style="
+                    font-weight: bold;
+                    font-size: 25px;
+                    margin-top: 20px;
+                    color: blue;
+                  " ng-click="checkThanhToan()" class="btn b1 btn-outline-warning" data-bs-toggle="modal"
+                href="#exampleModalToggle2">
+                <img src="/KhachHang/img/vnpay-logo.jpg" style="width: 120px; height: 50px; float: left" />
+                Thanh toán Vnpay
+              </button>
+              <div class="modal fade" id="exampleModalToggle2" aria-hidden="true"
+                aria-labelledby="exampleModalToggleLabel1" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div ng-show="checkFail">
+                      <div style="
+                          width: 200px;
+                          height: 200px;
+                          margin-left: 150px;
+                          margin-top: 50px;
+                        ">
+                        <img class="img-fluid w-100" src="/KhachHang/img/xac-nhan.jpg" />
+                      </div>
+                      <div style="text-align: center">
+                        <h2 style="color: gray; font-weight: bold">
+                          Nhập địa chỉ ?
+                        </h2>
+                        <h4 style="color: gray">Vui lòng nhập địa chỉ !</h4>
+                      </div>
+
+                      <div style="margin-top: 10px">
+                        <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close" style="
+                            width: 400px;
+                            height: 50px;
+                            margin-left: 40px;
+                            font-size: 20px;
+                            font-weight: bold;
+                          ">
+                          Xác nhận
+                        </button>
+                      </div>
+                    </div>
+                    <div ng-show="checkSoLuongFalse">
+                      <div style="
+                          width: 200px;
+                          height: 200px;
+                          margin-left: 150px;
+                          margin-top: 50px;
+                        ">
+                        <img class="img-fluid w-100" src="/KhachHang/img/xac-nhan.jpg" />
+                      </div>
+                      <div style="text-align: center">
+                        <h2 style="color: gray; font-weight: bold">
+                          Xin Lỗi !
+                        </h2>
+                        <h4 style="color: gray">Số lượng không đủ !</h4>
+                      </div>
+
+                      <div style="margin-top: 10px">
+                        <a href="/KhachHang/src/pages/gio-hang.html" ng-click="returnCart()"><button
+                            class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close" style="
+                            width: 400px;
+                            height: 50px;
+                            margin-left: 40px;
+                            font-size: 20px;
+                            font-weight: bold;
+                          ">
+                            Quay lại giỏ hàng
+                          </button></a>
+                      </div>
+                    </div>
+                    <div ng-show="checkTrue">
+                      <div style="
+                          width: 200px;
+                          height: 200px;
+                          margin-left: 150px;
+                          margin-top: 50px;
+                        ">
+                        <img class="img-fluid w-100" src="/KhachHang/img/xac-nhan.jpg" />
+                      </div>
+                      <div style="text-align: center">
+                        <h2 style="color: gray; font-weight: bold">
+                          Xác nhận thanh toán ?
+                        </h2>
+                        <h4 style="color: gray">Thanh toán Vnpay</h4>
+                      </div>
+                      <div style="margin-top: 10px">
+                        <a href="" data-bs-dismiss="modal" aria-label="Close"><button ng-click="thanhToanVnpay()" data-bs-toggle="modal"
+                            href="#exampleModalToggle5" class="btn btn-outline-primary" style="
+                              width: 170px;
+                              height: 50px;
+                              margin-left: 60px;
+                              font-size: 20px;
+                              font-weight: bold;">
+                            Xác nhận
+                          </button></a>
+                        <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close" style="
+                            width: 170px;
+                            height: 50px;
+                            margin-left: 40px;
+                            font-size: 20px;
+                            font-weight: bold;
+                          ">
+                          Hủy
+                        </button>
+                      </div>
+                    </div>
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal fade" id="exampleModalToggle5" aria-hidden="true"
+                aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div style="
+                        width: 200px;
+                        height: 200px;
+                        margin-left: 150px;
+                        margin-top: 50px; ">
+                      <img class="img-fluid w-100" src="/KhachHang/img/xac-nhan.jpg" />
+                    </div>
+                    <div style="text-align: center">
+                      <h2 style="color: gray; font-weight: bold">
+                        Xác nhận thanh toán Vnpay ?
+                      </h2>
+                      <h4 style="color: gray">Bạn đã thanh toán !</h4>
+                    </div>
+                    <div style="margin-top: 10px">
+                      <a><button class="btn btn-outline-primary" ng-click="thanhToanAndVnpay()" style="
+                            width: 170px;
+                            height: 50px;
+                            margin-left: 60px;
+                            font-size: 20px;
+                            font-weight: bold;
+                          ">
+                          Xác nhận
+                        </button></a>
+                      <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close" style="
+                          width: 170px;
+                          height: 50px;
+                          margin-left: 40px;
+                          font-size: 20px;
+                          font-weight: bold;
+                        ">
+                        Hủy
+                      </button>
+                    </div>
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+
+              <br />
+              <br />
+              <a href="/KhachHang/src/pages/gio-hang.html" ng-click="returnCart()" class="card-link">
+                <button type="button" class="btn b1 btn-outline-secondary">
+                  Quay lại giỏ hàng
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Thay đổi địa chỉ
+              </h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="form-floating">
+                <select class="form-select" id="province" aria-label="Floating label select example"></select>
+                <label for="province">Tỉnh/Thành phố</label>
+              </div>
+              <br />
+              <div class="form-floating">
+                <select class="form-select" id="district" aria-label="Floating label select example">
+                  <option>Chọn quận/huyện</option>
+                </select>
+                <label for="district">Quận/Huyện</label>
+              </div>
+              <br />
+              <div class="form-floating">
+                <select class="form-select" id="ward" aria-label="Floating label select example">
+                  <option>Chọn phường/xã</option>
+                </select>
+                <label for="ward">Phường Xã</label>
+              </div>
+              <br />
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" ng-model="dcct" />
+                <label for="dcct" ng-model="listDC.dcct">Địa chỉ cụ thể</label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                Đóng
+              </button>
+              <button type="button" class="btn btn-primary" ng-click="updateDC()">
+                Xác nhận
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"
+    integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="/Admin/lib/angular.min.js"></script>
+  <script src="/KhachHang/src/config/api.js"></script>
+  <script src="/KhachHang/src/controller/gio-hang.js"></script>
+  <script src="/KhachHang/src/controller/dataservice.js"></script>
+  <script>
+    // 1. what is API
+    // 2. How do I call API
+    // 3. Explain code
+    const host = "https://provinces.open-api.vn/api/";
+    var callAPI = (api) => {
+      return axios.get(api).then((response) => {
+        renderData(response.data, "province");
+      });
+    };
+    callAPI("https://provinces.open-api.vn/api/?depth=1");
+    var callApiDistrict = (api) => {
+      return axios.get(api).then((response) => {
+        renderData(response.data.districts, "district");
+      });
+    };
+    var callApiWard = (api) => {
+      return axios.get(api).then((response) => {
+        renderData(response.data.wards, "ward");
+      });
+    };
+
+    var renderData = (array, select) => {
+      let row = ' <option disable value="">Chọn</option>';
+      array.forEach((element) => {
+        row += `<option value="${element.code}">${element.name}</option>`;
+      });
+      document.querySelector("#" + select).innerHTML = row;
+    };
+
+    $("#province").change(() => {
+      callApiDistrict(host + "p/" + $("#province").val() + "?depth=2");
+      printResult();
+    });
+    $("#district").change(() => {
+      callApiWard(host + "d/" + $("#district").val() + "?depth=2");
+      printResult();
+    });
+    $("#ward").change(() => {
+      printResult();
+    });
+
+    var printResult = () => {
+      if (
+        $("#district").val() != "" &&
+        $("#province").val() != "" &&
+        $("#ward").val() != ""
+      ) {
+        let result =
+          $("#province option:selected").text() +
+          " | " +
+          $("#district option:selected").text() +
+          " | " +
+          $("#ward option:selected").text();
+        $("#result").text(result);
+      }
+    };
+  </script>
+</body>
+<style>
+  .conte {
+    margin-top: 20px;
+  }
+
+  li {
+    font-size: 2.4vh;
+    display: inline;
+    margin-right: 10px;
+  }
+
+  a {
+    text-decoration: none;
+    color: black !important;
+  }
+
+  .b2 {
+    width: 95%;
+  }
+
+  .btn-close {
+    width: 20%;
+  }
+
+  .b1 {
+    width: 100%;
+  }
+
+  .card {
+    background-color: whitesmoke;
+  }
+
+  .input-qty {
+    width: 100%;
+    background-color: #fff;
+    height: 2.2rem;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin: 0;
+    border: 0px;
+    padding: 0;
+  }
+
+  .tabTT {
+    margin-top: -40px;
+  }
+
+  .pageTT {
+    margin-top: 50px;
+  }
+
+  .bgcart {
+    background-image: url("/KhachHang/img/bg-cart.jpg");
+    /* Đường dẫn đến hình nền */
+    background-size: cover;
+    /* Tự động căn chỉnh hình nền để nó phù hợp với kích thước của phần tử cha */
+    background-position: center;
+    /* Đặt vị trí trung tâm cho hình nền */
+    background-repeat: no-repeat;
+    /* Ngăn việc lặp lại hình nền */
+    width: 87%;
+    height: 20vh;
+    /* Đảm bảo kích thước cao của phần tử cha đủ để hiển thị hình nền */
+    display: flex;
+    justify-content: center;
+    /* Căn giữa theo chiều ngang */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+    text-align: center;
+    color: black;
+    /* Màu chữ */
+  }
+
+  .content {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 34px;
+    font-family: monospace;
+  }
+</style>
+
+</html>

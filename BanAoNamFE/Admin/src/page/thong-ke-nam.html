@@ -1,0 +1,69 @@
+<section>
+    <div class="container-fluid px-4">
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link " href="#thong-ke-ban-chay">Thống kê trong ngày</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active " href="">Thống kê doanh thu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#thong-ke">Thống kê đơn hàng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#thong-ke-san-pham">Thống kê sản phẩm</a>
+                    </li>
+                </ul>
+            </div>
+            <br>
+
+                <ul class="nav justify-content-center nav-tabs ">
+                    <li class="nav-item">
+                        <a class="nav-link " href="#thong-ke-theo-ngay">Ngày</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#thong-ke-theo-thang">Tháng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#thong-ke-theo-nam">Năm</a>
+                    </li>
+                </ul>
+
+            <br>
+            <div>
+                <select ng-model="nam" ng-init="nam = '0'" class="form-select" aria-label="Default select example"
+                    style="width: 200px ; margin-left: 500px;"  ng-change="loadThongKeNam()">
+                    <option value="0">Chọn năm</option>
+                    <option ng-repeat="n in listN" ng-value="n.thang">{{n.thang}}</option>
+                </select>
+            </div>
+            <br>
+            <div class="card-group">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Tổng doanh thu</h5>
+                        <p class="card-text">
+                        <h1 style="color: red;">{{tongTien | currency:'':0}} đ</h1>
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Tổng đơn hàng</h5>
+                        <p class="card-text">
+                        <h1 style="color: red;">{{donHang}}</h1>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+
+            <div class="col-md-12" style="width: 1700px;">
+                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+</section>

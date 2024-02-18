@@ -1,0 +1,396 @@
+<section>
+    <div style="height: 50px; width: auto; background-color: cadetblue; display: flex;">
+        <div>
+            <div style="float: left;">
+                <div class="input-group mb-2" style="margin-top: 10px; margin-left: 20px; float: left;">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm..." ng-model="searchTen"
+                        aria-describedby="basic-addon2" ng-change="timKiem()"
+                        style="width: 200px; height: 30px; float: left;">
+                    <button class="input-group-text" id="basic-addon2" style="width: 20px; height: 30px; float: left;"
+                        ng-click="xoa()">✘</button>
+                </div>
+            </div>
+            <div style="float: left; margin-top: 10px; margin-left: 30px;display: flex;">
+                <button type="button" class="btn btn-warning" style=" height: 30px; " ng-click="addHoaDon()" ng-disabled="checkSoLuong">➕</button>
+                <div class="invoice-container">
+                    <div id="invoice" ng-repeat="hd in listHD">
+                        <a href="#/detail/{{hd.idHoaDon}}" ng-click="detail($event,$index,hd)">
+                            <button class="btn btn-warning" style=" height: 30px;">{{hd.maHoaDon}}</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-left: 1150px; margin-top: 10px; position: absolute;">
+            <button type="button" class="btn btn-outline-warning" style=" height: 30px;" ng-click="showTrue()">Quét
+                mã</button>
+            <!-- <button type="button" class="btn btn-outline-warning" style=" height: 30px;"
+                ng-click="showFalse()">Tắt</button> -->
+        </div>
+    </div>
+
+    <div class="col-lg-8" style=" border: 1px solid black; float: left; height: 630px;">
+        <div class="rectangles">
+            <div class="col-lg-12" style=" height: 350px; ">
+                <table>
+                    <thead>
+                        <tr class="table-secondary">
+                            <th scope="col">Ảnh</th>
+                            <th scope="col">Sản Phẩm</th>
+                            <th scope="col">Thông tin sản phẩm</th>
+                            <th scope="col">Đơn Giá</th>
+                            <th scope="col">Giá Khuyến Mại</th>
+                            <th scope="col">Số Lượng</th>
+                            <th scope="col">Thành Tiền</th>
+                            <th scope="col">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="hdct in listHDCT">
+                        <tr>
+                            <td>
+                                <img ng-if="hdct.anh != null" src="/Admin/images/{{hdct.anh}}" style="width: 50px" />
+                                <img ng-if="hdct.anh == null && hdct.anh2 != null" src="/Admin/images/{{hdct.anh2}}" style="width: 50px" />
+                                <img ng-if="hdct.anh == null && hdct.anh2 == null && hdct.anh3 != null" src="/Admin/images/{{hdct.anh3}}" style="width: 50px" />
+                            </td>
+                            <td>{{hdct.tenSanPham}}</td>
+                            <td>
+                                Màu : {{hdct.mauSac}} <br />
+                                Kích cỡ : {{hdct.kichCo}}
+                            </td>
+                            <td>{{hdct.thanhTien | currency:'':0}}</td>
+                            <td>
+                                {{hdct.khuyenMai == null ? "0" : hdct.khuyenMai
+                                | currency:'':0}}
+                            </td>
+                            <td>
+                                <input aria-label="quantity" class="input-qty" min="1" ng-model="soLuongTempt[$index]"
+                                    ng-change="themSoLuong(hdct, $index)" type="number" style="width: 50px;" />
+                                <span style="color: red;" ng-if="failSoLuongAm[$index]">
+                                    * Số lượng không được âm !
+                                </span>
+                                <span style="color: red;" ng-if="failValidateSl[$index]">
+                                    * Số lượng hàng đặt vượt quá số lượng hiện có !
+                                </span>
+                                <span style="color: red;" ng-if="listCheckTrong[$index]">
+                                    * không được để trống số lượng
+                                </span>
+                            </td>
+                            <td>{{((hdct.thanhTien * soLuongTempt[$index] ) - (hdct.khuyenMai * soLuongTempt[$index])) |
+                                currency:'':0}}
+                            </td>
+                            <td class="text-center">
+                                <a ng-click="remove($event,hdct.idHoaDonChiTiet)">
+                                    <button type="button" class="btn">
+                                        🗑️
+                                    </button></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="myAlert" class="modal fade" role="dialog" data-bs-backdrop="false">
+            <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        ❌ Hóa đơn có một sản phẩm không thể xóa!
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="myAlert3" class="modal fade" role="dialog" data-bs-backdrop="false">
+            <div class="modal-dialog"
+                style="position: fixed; width: 400px; height: 300px; margin-top: 250px; margin-left: 600px;">
+                <div class="modal-content">
+                    <div class="modal-body" style="background-color: lightblue; border-radius: 10px;">
+                        <img src="/KhachHang/img/tichss.jpg"
+                            style="width: 100px; height: 80px; margin-left: 140px;"><br>
+                        <p style="font-size: 30px;font-weight: bold; color: gray; text-align: center;">Thanh toán thành
+                            công !</p><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="myAlert1" class="modal fade" role="dialog" data-bs-backdrop="false">
+            <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px ;">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        ✅ Thêm thành công !
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="myAlert2" class="modal fade" role="dialog" data-bs-backdrop="false">
+            <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px ;">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        ✅ Xóa thành công !
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="myAlert3" class="modal fade" role="dialog" data-bs-backdrop="false">
+            <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px ;">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        ✅ Xóa thành công !
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="myAlert4" class="modal fade" role="dialog" data-bs-backdrop="false">
+            <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px ;">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        ❌ Vui lòng chọn hóa đơn !
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="alertCart" class="modal fade" role="dialog" data-bs-backdrop="false">
+            <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px ;">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        ❌ Sản phẩm đẫ có trong đơn hàng !
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="myAlert5" class="modal fade" role="dialog" data-bs-backdrop="false">
+            <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px ;">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        ❌ Sản phẩm đã hết hàng !
+                    </div>
+                </div>
+            </div>
+        </div>
+        </br>
+        </br>
+        <div class="col-lg-12" style=" float: left; height: 50px;">
+            <div class="form-group col-md-2" style="float: left;">
+                <select class="form-control" ng-model="searchTen" style="width: 120px; height: 30px; margin-top: 10px;"
+                    ng-change="timKiem()">
+                    <option ng-value="''">---Sản phẩm---</option>
+                    <option ng-repeat="sp in sanPhams" ng-value="sp.ten">{{sp.ten}}</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2" style="float: left;">
+                <select class="form-control" ng-model="searchMauSac"
+                    style="width: 120px; height: 30px; margin-top: 10px;" ng-change="timKiem()">
+                    <option ng-value="''">---Màu sắc---</option>
+                    <option ng-repeat="ms in mauSacs" ng-value="ms.ten">{{ms.ten}}</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2" style="float: left;">
+                <select class="form-control" ng-model="searchKichCo"
+                    style="width: 120px; height: 30px; margin-top: 10px;" ng-change="timKiem()">
+                    <option ng-value="''">---Kích cỡ---</option>
+                    <option ng-repeat="kc in kichCos" ng-value="kc.ten">{{kc.ten}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="rectangle">
+            <div class="col-lg-2 col-md-9 col-sm-12 pb-1" style="float: left;" ng-repeat="sp in listSP">
+                <div class="card product-item border-0 mb-4" style="height: 190px;">
+                    <div class="image-container">
+                        <img ng-if="sp.anh != null" class="img-fluid w-100" src="images/{{sp.anh}}" style="width: 50px; height: 100px;">
+                        <img ng-if="sp.anh == null && sp.anh2 != null" class="img-fluid w-100" src="images/{{sp.anh2}}" style="width: 50px; height: 100px;">
+                        <img ng-if="sp.anh == null && sp.anh2 == null && sp.anh3 != null" class="img-fluid w-100" src="images/{{sp.anh3}}" style="width: 50px; height: 100px;">
+                        <div class="overlay">
+                            <a style="text-decoration: none;" href="" ng-click="themSanPham(sp.id)">CHỌN</a>
+                        </div>
+                    </div>
+                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                        <h6 class="text-truncate mb-2" style="font-size: 10px;">{{sp.sanPham}}</h6>
+                        <div class="d-flex justify-content-center">
+                            <h6 style="font-size: 12px;" ng-if="sp.giaKhuyenMai == 0">{{sp.gia | currency:'':0}}đ</h6>
+                            <h6 style="font-size: 12px;" ng-if="sp.giaKhuyenMai != 0" class="text-muted ml-2"
+                                ng-if="spm.giaKM != 0">
+                                <span style="color: black;">{{sp.gia - sp.giaKhuyenMai | currency:'':0}}đ
+                                    <del style=" color: red; font-size: 10px;">{{sp.gia | currency:'':0}}đ</del></span>
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4" style=" border: 1px solid black; float: right; height: 630px;">
+
+        <div style="margin-top: 50px;">
+            <span style="font-weight: bold; float: left;">Hóa đơn : </span>
+            <span style="float: right;"><input type="text" style="width: 50px;" ng-model="x.ma" readonly></span>
+            <br>
+            <br>
+            <span style="font-weight: bold; float: left;">Khách hàng : </span>
+            <span style="float: right;">Khách lẻ</span>
+            <br>
+            <br>
+            <span style="font-weight: bold;">Tổng mặt hàng : </span>
+            <span>{{dh}}</span>
+            <span style="float: right;"><input type="text" style="width: 70px;" ng-model="x.tongTien | currency:'':0"
+                    readonly>đ</span>
+            <br>
+            <br>
+            <div>
+                <span style="float: left; margin-top: 10px; font-weight: bold">Hình thức thanh toán :</span>
+                <select class="form-select" style="width: 200px; float: right;" ng-model="hinhThuc">
+                    <option ng-value="0">Chọn hình thức</option>
+                    <option ng-value="1">Tiền mặt</option>
+                    <option ng-value="2">Chuyển khoản</option>
+                    <option ng-value="3">Tiền mặt và chuyển khoản</option>
+                </select>
+            </div>
+
+            <br>
+            <br>
+            <div ng-show="hinhThuc == '1'" style="margin-top: 20px;">
+                <span style="float: left;margin-top: 10px; font-weight: bold;">Tiền khách trả :</span>
+                <input class="form-control" ng-change="tienKhach()" placeholder="Tiền mặt"
+                    style="width: 200px; float: right;" type="number" ng-model="tienMat">
+                <br>
+                <br>
+                <span style="float: left;margin-top: 20px; font-weight: bold;">Tiền thừa : </span>
+                <input class="form-control" style="width: 200px; float: right;margin-top: 10px;" readonly type="text"
+                    ng-model="tienThua | currency:'':0">
+            </div>
+            <div ng-show="hinhThuc == '2'" style="margin-top: 20px;">
+                <span style="float: left;margin-top: 10px; font-weight: bold;">Tiền khách trả :</span>
+                <input class="form-control" ng-change="tienKhach()" placeholder="Chuyển khoản "
+                    style="width: 200px; float: right;" type="number" ng-model="chuyenKhoan">
+                <br>
+                <br>
+                <span style="float: left;margin-top: 20px; font-weight: bold;">Tiền thừa : </span>
+                <input class="form-control" style="width: 200px; float: right;margin-top: 10px;" readonly type="text"
+                    ng-model="tienThua1 | currency:'':0">
+            </div>
+            <div ng-show="hinhThuc == '3'" style="margin-top: 20px;">
+                <span style="float: left;margin-top: 10px; font-weight: bold;">Tiền khách trả :</span>
+                <input class="form-control" ng-change="tienKhach()" placeholder="Tiền mặt "
+                    style="width: 130px;  float: right;" type="number" ng-model="tienMat1">
+                <input class="form-control" ng-change="tienKhach()" placeholder="Chuyển khoản"
+                    style="width: 130px;margin-right: 10px; float: right;" type="number" ng-model="chuyenKhoan1">
+                <br>
+                <br>
+                <span style="float: left;margin-top: 20px; font-weight: bold;">Tiền thừa : </span>
+                <input class="form-control" style="width: 270px; float: right;margin-top: 10px;" readonly type="text"
+                    ng-model="tienThua2 | currency:'':0">
+            </div>
+
+            <br>
+            <br>
+            <div style="margin-top: 40px;">
+                <span style="float: left; font-weight: bold; font-size: 20px; margin-top: 10px;">Tổng tiền : </span>
+                <span style="font-size: 30px; color: red; float: right;font-weight: bold;">{{tt | currency:'':0}}
+                    đ</span>
+            </div>
+            <br>
+            <br>
+            <div style="margin-top: 100px; margin-left: 80px;">
+                <button type="button" class="btn btn-outline-warning" id="animated-button" ng-disabled="checkTrong"
+                    style="width: 250px; height: 70px; font-weight: bold; font-size: 25px;" ng-click="thanhToan()">
+                    <img src="/KhachHang/img/thanh-toans.jpg" style="width: 70px; height: 40px; float: left" />Thanh
+                    toán</button>
+            </div>
+        </div>
+    </div>
+    <div ng-show="showCame" class="came">
+        <div id="barcode-scanner" class="came1"></div>
+    </div>
+</section>
+
+<style>
+    /* .came{
+        width: 1px;
+        height: 1px;
+    } */
+    .came {
+        position: absolute;
+        margin-left: 300px;
+        margin-top: 60px;
+    }
+
+    #animated-button {
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease-out;
+    }
+
+    #animated-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 10);
+    }
+
+    .invoice-container {
+        display: flex;
+        margin-left: 10px;
+        float: left;
+    }
+
+    #invoice {
+        box-sizing: border-box;
+        margin-left: 10px;
+    }
+
+    .rectangle {
+        width: auto;
+        height: 260px;
+        border: 1px solid #ccc;
+        overflow: auto;
+        margin-top: 320px;
+    }
+
+    .rectangles {
+        width: 800px;
+        height: 300px;
+        border: 1px solid #ccc;
+        overflow: auto;
+        margin-top: 10px;
+        float: left;
+    }
+
+    .image-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .overlay a {
+        color: white;
+        text-align: center;
+        border: 1px solid white;
+        font-size: 10px;
+        font-weight: bold;
+        width: 50px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .image-container:hover .overlay {
+        opacity: 1;
+    }
+</style>

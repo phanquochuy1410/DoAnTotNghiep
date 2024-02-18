@@ -1,0 +1,223 @@
+<section class="dsNhanVien">
+  
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button class="nav-link " id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Nhân Viên Đang Làm Việc</button>
+        <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Nhân Viên Nghỉ Việc</button>
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade " id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div class="header">
+          <h2 class="p-3">Thông Tin Nhân Viên</h2>
+          <hr />
+        </div>
+        <!--  -->
+        <div class="container-fluid">
+              
+          <nav class="navbar navbar-light">
+            <div class="container-fluid">
+                <!-- Button trigger modal -->
+                <button class="btn btn-outline-success " type="submit" data-bs-toggle="modal" data-bs-target="#addNV">Thêm Nhân Viên</button>
+                <form class="d-flex ml-auto" ng-submit="searchNhanVienDL()">
+                  <input class="form-control me-2" type="search" placeholder="Số điện thoại..." aria-label="Search" ng-model="sdtSearch">
+                  <button class="btn btn-outline-primary" type="submit">Tìm Kiếm</button>
+                </form>
+            </div>
+          </nav>
+
+              <!-- Modal -->
+              <div class="modal fade" id="addNV" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Thêm Nhân Viên</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div style="margin: 0 auto;" class="modal-body">
+                      <div class="container">
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-4 mb-5">
+                              <h5 style="padding-left: 20px">Mã Nhân Viên</h5>
+                              <input type="text" class="form-control" ng-model="inputNV.ma" disabled/>
+                              <h5 style="padding-left: 20px">Tên Nhân Viên</h5>
+                              <input type="text" class="form-control" ng-model="inputNV.ten" required/>
+                              <h5 style="padding-left: 20px">Giới Tính</h5>
+                              <input type="radio" value="true" name="gioiTinh" id="nam" ng-model="inputNV.gioiTinh"/>  
+                              <label for="nam">Nam</label>
+                              <input type="radio" value="false" name="gioiTinh" id="nu" ng-model="inputNV.gioiTinh"/>
+                              <label for="nu">Nữ</label>           
+                            </div>
+                            <!--  -->
+                            <div class="col-4 mb-5">
+                              <h5 style="padding-left: 20px">Số điện thoại</h5>
+                              <input type="text" class="form-control" ng-model="inputNV.soDienThoai"/>
+                              <h5 style="padding-left: 20px">Email</h5>
+                              <input type="text" class="form-control" ng-model="inputNV.email"/>
+                              <h5 style="padding-left: 20px">Chức Vụ</h5>
+                              <select class="form-select" ng-model="inputNV.chucVu" ng-init="inputNV.chucVu = '1'">
+                                <option value="1">Nhân Viên</option>
+                                <option value="0">Quản Lý</option>
+                              </select>
+                            </div>
+                            <!--  -->
+                            <div class="col-4 mb-5">                           
+                              <h5 style="padding-left: 20px">Mật Khẩu</h5>
+                              <input type="password" class="form-control" ng-model="inputNV.matKhau"/>
+                              <h5 style="padding-left: 20px">Ngày Sinh</h5>
+                              <input type="date" class="form-control" ng-model="inputNV.ngaySinh"/>
+                              <h5 style="padding-left: 20px">Trạng Thái</h5>
+                              <select class="form-select" ng-model="inputNV.trangThai" ng-init="inputNV.trangThai = '1'">
+                                <option value="1">Đang Làm</option>
+                                <option value="0">Nghỉ Việc</option>
+                              </select>
+                            </div>
+                          </div>
+      
+                          <div class="row">
+                            <div class="col-12">
+                              <h5 style="padding-left: 20px">Địa chỉ cụ thể</h5>
+                              <div class="form-floating">
+                                <textarea ng-model="inputNV.diaChi" class="form-control" placeholder="..." id="floatingTextarea2" style="height: 100px"></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>   
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay Lại</button>
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal" ng-click="add()">Thêm Nhân Viên</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+        </div>
+        
+        <!--  -->
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Mã Nhân Viên</th>
+              <th scope="col">Tên Nhân Viên</th>
+              <th scope="col">Số Điện Thoại</th>
+              <th scope="col">Giới Tính</th>
+              <th scope="col">Ngày Sinh</th>
+              <th scope="col">Địa Chỉ</th>
+              <th scope="col">Email</th>
+              <th scope="col">Mật Khẩu</th>
+              <th scope="col">Chức Vụ</th>
+              <th scope="col">Trạng Thái</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody ng-repeat="nv in listNV1">
+            <tr>
+              <td>{{ nv.ma }}</td>
+              <td>{{ nv.ten }}</td>
+              <td>{{ nv.soDienThoai }}</td>
+              <td>{{ nv.gioiTinh == true ? "Nam" : "Nữ" }}</td>
+              <td>{{ nv.ngaySinh}}</td>
+              <td>{{ nv.diaChi }}</td>
+              <td>{{ nv.email }}</td>
+              <td>{{ nv.matKhau }}</td>
+              <td>{{ nv.chucVu == '0' ? "Quản Lý" : "Nhân Viên"}}</td>
+              <td>{{ nv.trangThai == '1' ? "Đang Làm" : "Nghỉ Việc" }}</td>
+              <td>
+                <a href="#/nhan-vien-dl/detail/{{nv.id}}"><img
+                  src="https://cdn-icons-png.flaticon.com/128/8249/8249488.png"
+                  alt=""
+                  style="width: 20px;"
+                  class="img-fluid"
+                  data-bs-toggle="modal" data-bs-target="#nhanVien"
+                /></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" ng-class="{ 'disabled': pageNo === 0 }">
+              <a class="page-link" href="#/nhan-vien" ng-click="changePageDL(pageNo - 1)" tabindex="-1" aria-disabled="pageNo === 0">
+                <
+              </a>
+            </li>
+            <li class="page-item" ng-repeat="page in range(totalPages)" ng-class="{ 'active': page === pageNo }">
+              <a class="page-link" href="#/nhan-vien" ng-click="changePageDL(page)">{{ page + 1 }}</a>
+            </li>
+            <li class="page-item" ng-class="{ 'disabled': pageNo === totalPages - 1 }">
+              <a class="page-link" href="#/nhan-vien" ng-click="changePageDL(pageNo + 1)">
+                >
+              </a>
+            </li>
+          </ul>
+        </nav>
+        
+      </div>
+      <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <div class="header">
+  <h2 class="p-3">Thông tin chi tiết</h2>
+  <hr />
+</div>
+<!--  -->
+<div class="container">
+    <div class="row">
+      <div class="col-4 mb-5">
+        <h5 style="padding-left: 20px">Mã Nhân Viên</h5>
+        <input type="text" class="form-control" ng-model="inputNV.ma" />
+        <h5 style="padding-left: 20px">Tên Nhân Viên</h5>
+        <input type="text" class="form-control" ng-model="inputNV.ten"/>     
+        <h5 style="padding-left: 20px">Giới Tính</h5>
+        <input type="radio" value="true" name="gioiTinh" id="nam" ng-model="inputNV.gioiTinh" ng-checked="inputNV.gioiTinh == true ? 'checked' : '' "/>  
+        <label for="nam">Nam</label>
+        <input type="radio" value="false" name="gioiTinh" id="nu" ng-model="inputNV.gioiTinh" ng-checked="inputNV.gioiTinh == false ? 'checked' : '' "/>
+        <label for="nu">Nữ</label>           
+      </div>
+      <!--  -->
+      <div class="col-4 mb-5">
+        <h5 style="padding-left: 20px">Số điện thoại</h5>
+        <input type="text" class="form-control" ng-model="inputNV.soDienThoai"/>
+        <h5 style="padding-left: 20px">Email</h5>
+        <input type="text" class="form-control" ng-model="inputNV.email"/>
+        <h5 style="padding-left: 20px">Chức Vụ</h5>
+        <input type="radio" value="1" name="chucVu" id="1" ng-model="inputNV.chucVu" ng-checked="inputNV.chucVu == 1 ? 'checked' : '' "/>  
+        <label for="1">Quản Lý</label>
+        <input type="radio" value="0" name="chucVu" id="0" ng-model="inputNV.chucVu" ng-checked="inputNV.chucVu == 0 ? 'checked' : '' "/>
+        <label for="0">Nhân Viên</label> 
+      </div>
+      <!--  -->
+      <div class="col-4 mb-5">                           
+        <h5 style="padding-left: 20px">Mật Khẩu</h5>
+        <input type="password" class="form-control" ng-model="inputNV.matKhau"/>
+        <h5 style="padding-left: 20px">Ngày Sinh</h5>
+        <input type="date" class="form-control" ng-model="inputNV.ngaySinh "/>
+        <h5 style="padding-left: 20px">Trạng Thái</h5>
+        <input type="radio" value="1" name="trangThai" id="1" ng-model="inputNV.trangThai" ng-checked="inputNV.trangThai == 1 ? 'checked' : '' "/>  
+        <label for="1">Đang Làm</label>
+        <input type="radio" value="0" name="trangThai" id="0" ng-model="inputNV.trangThai" ng-checked="inputNV.trangThai == 0 ? 'checked' : '' "/>
+        <label for="0">Nghỉ Việc</label> 
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <h5 style="padding-left: 20px">Địa chỉ cụ thể</h5>
+        <div class="form-floating">
+          <textarea ng-model="inputNV.diaChi" class="form-control" placeholder="..." id="floatingTextarea2" style="height: 100px"></textarea>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="mt-5 text-center ">
+        <a href="#/nhan-vien" class="btn btn-outline-danger">Quay Lại</a>
+        <button class="btn btn-outline-warning" ng-click="update(nv.id)">Cập Nhật</button>
+      </div>
+    </div>         
+</div>
+        
+      </div>
+    </div>
+
+</section>

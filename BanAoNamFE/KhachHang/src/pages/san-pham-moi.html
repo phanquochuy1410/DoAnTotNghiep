@@ -1,0 +1,129 @@
+<div style="margin-left: 100px;">
+    <div style=" width:1300px ; height:600px">
+        <div class="carousel-inner">
+            <img src="img/banner8.jpg" style=" width:1300px ; height:600px">
+        </div>
+    </div>
+</div>
+<br>
+<div class="d-inline-flex" style="margin-left: 20px;">
+    <p class=""><a href="#trang-chu" style="color: black;">Trang chủ</a></p>
+    <p class="m-0 px-2" style="color: black;"> > </p>
+    <p class="" style="color: black;">Sản phẩm mới</p>
+</div>
+<hr style="border: 1px solid black;">
+<br>
+<div style="height: 50px;">
+    <div style="float: left;margin-top: 7px; ">
+        <h5 style="float: left; margin-left: 100px;">Giá :</h5>
+        <form style="margin-left: 20px; float: left;">
+            <input ng-model="giaBatDau" ng-change="searchThuocTinh()" type="text"  style="width: 140px; border-radius: 20px;" 
+                placeholder="VND" pattern="[0-9]*" style="float: left;"> --
+            <input ng-model="giaKetThuc" ng-change="searchThuocTinh()" type="text" style="width: 140px; border-radius: 20px;"
+                placeholder="VND" pattern="[0-9]*" style="float: left;">
+            <div ng-show="invalidNumber && giaBatDau !== ''" style="color: red;"></div>
+        </form>
+    </div>
+
+    <div style="float: left; margin-left: 30px;">
+        <div class="d-flex justify-content-between " style="margin-left: 30px;">
+            <form action="" style="margin-left: 30px; float: left;">
+                <div class="input-group">
+                    <input type="text" ng-model="searchTenSanPham" ng-change="searchThuocTinh()" class="form-control"
+                        placeholder="Tìm kiếm sản phẩm...">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div style="float: right;">
+    <select class="btn border dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false" ng-model="showGia">
+        <option class="dropdown-item" value="">Sắp xếp</option>
+        <option class="dropdown-item" value="gia">Tăng dần</option>
+        <option class="dropdown-item" value="-gia">Giảm dần</option>
+    </select>
+    </div>
+</div>
+
+
+<hr>
+<br>
+<div style="height: 1500px;">
+    <div style="margin-left: 40px; float: left;">
+        <div style=" width:510px ; border-right: 1px solid black">
+            <div class="carousel-inner">
+                <div style="margin-left: 20px; float: left; border-right: 1px solid black; width:500px ">
+                    <div class="carousel-inner">
+                        <img src="img/banner10.jpg" style=" width:470px ; height:700px">
+                        <br>
+                        <br>
+                        <img src="img/banner14.jpg" style=" width:470px ; height:600px">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mb-2">
+        <h2 class="section-title px-5"><span class="px-2">Sản phẩm mới</span></h2>
+    </div>
+    <div class="row px-xl-2 pb-3">
+        <div class="col-lg-4 col-md-6 col-sm-12 pb-1" ng-repeat="spm in listSPM | orderBy:showGia">
+            <div class="card product-item border-0 mb-2">
+                <div class="image-container">
+                    <div ng-if="spm.giaKM != 0" class="triangle"></div>
+                    <div ng-if="spm.giaKM != 0" class="spans">{{(spm.giaKM / spm.gia) * 100 | currency:'':0}}%</div>
+                    <img ng-if="spm.tenAnh != null" class="img-fluid w-100" src="img/{{spm.tenAnh}}" style="width: 150px; height: 360px;">
+                    <img ng-if="spm.tenAnh == null && spm.tenAnh2 != null" class="img-fluid w-100" src="img/{{spm.tenAnh2}}" style="width: 150px; height: 360px;">
+                    <img ng-if="spm.tenAnh == null && spm.tenAnh2 == null && spm.tenAnh3 != null" class="img-fluid w-100" src="img/{{spm.tenAnh3}}" style="width: 150px; height: 360px;">
+                    <div class="overlay">
+                        <a style="text-decoration: none;" href="#detail/{{spm.id}}">XEM THÊM</a>
+                    </div>
+                </div>
+                <div class="card-body border-left border-right text-center p-0 pt-2 pb-3">
+                    <h6 class="text-truncate mb-3">{{spm.tenSanPham}}</h6>
+                    <div class="d-flex justify-content-center">
+                        <h6 id="giaGoc" ng-if="spm.giaKM == 0">{{spm.gia | currency:'':0}} đ</h6>
+                        <h6  class="text-muted ml-2" ng-if="spm.giaKM != 0" >
+                           <span style="color: black;">{{spm.gia - spm.giaKM | currency:'':0}} đ</span> 
+                            <del style=" color: red; font-size: 12px;">{{spm.gia | currency:'':0}} đ</del></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center;">
+        <button type="button" class="btn btn-outline-primary" ng-click="prevPage()">
+            << </button>
+                <button type=" button" class="btn btn-outline-primary" ng-click="prevPages()"> |< </button>
+                        <button type=" button" class="btn btn-outline-primary" ng-click="nextPages()"> >|
+                        </button>
+                        <button type=" button" class="btn btn-outline-primary" ng-click="nextPage()"> >>
+                        </button>
+    </div>
+</div>
+<style>
+    .discount-box {
+        position: relative;
+    }
+
+    .triangle {
+        position: absolute;
+        right: 0;
+        width: 0;
+        height: 0;
+        border-left: 50px solid transparent;
+        border-top: 50px solid red;
+    }
+
+    .spans {
+        position: absolute;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        margin-left: 245px;
+        margin-top: 10px;
+        transform: rotate(45deg);
+
+    }
+</style>

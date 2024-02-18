@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>EShopper - Bootstrap Shop Template</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="Free HTML Templates" name="keywords" />
+  <meta content="Free HTML Templates" name="description" />
+
+  <!-- Favicon -->
+  <link href="img/favicon.ico" rel="icon" />
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
+
+  <!-- Libraries Stylesheet -->
+  <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Page Header Start -->
+  <div class="container-fluid bg-secondary mb-5">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+      <h1 class="font-weight-semi-bold text-uppercase mb-3">Đơn hàng</h1>
+      <div class="d-inline-flex">
+        <p class="m-0"><a href="index.html">Trang chủ</a></p>
+        <p class="m-0 px-2">-</p>
+        <p class="m-0">Đơn hàng</p>
+      </div>
+    </div>
+  </div>
+  <!-- Page Header End -->
+
+  <!-- Trạng Thái Đơn Hàng -->
+  <div class="container" ng-repeat="hd in listHD">
+    <!-- Chờ xác nhận -->
+    <div style="height: 30px;" class="progress" ng-if="hd.trangThai == 0">
+      <div class="progress-bar bg-danger" role="progressbar" style="width: 25% ; font-weight: bold;" aria-valuenow="25"
+        aria-valuemin="0" aria-valuemax="100">Chờ Xác Nhận</div>
+    </div>
+    <div class="row" ng-if="hd.trangThai == 0">
+      <div class="col-3 text-center " style="font-style: italic;">
+        {{hd.ngayTao | date : "dd-MM-yyyy"}}
+      </div>
+    </div>
+
+    <!-- Chờ vận chuyển -->
+    <div style="height: 30px;" class="progress" ng-if="hd.trangThai == 2">
+      <div class="progress-bar bg-danger" role="progressbar" style="width: 25% ; font-weight: bold;" aria-valuenow="25"
+        aria-valuemin="0" aria-valuemax="100">Chờ Xác Nhận</div>
+      <div class="progress-bar bg-info" role="progressbar" style="width: 25% ; font-weight: bold;" aria-valuenow="25"
+        aria-valuemin="0" aria-valuemax="100">Chờ Vận Chuyển</div>
+    </div>
+    <div class="row" ng-if="hd.trangThai == 2">
+      <div class="col-3"></div>
+      <div class="col-3 text-center " style="font-style: italic;">
+        {{hd.updateAt | date : "dd-MM-yyyy"}}
+      </div>
+    </div>
+
+    <!-- Chờ giao hàng -->
+    <div style="height: 30px;" class="progress" ng-if="hd.trangThai == 3">
+      <div class="progress-bar bg-danger" role="progressbar" style="width: 25% ; font-weight: bold;" aria-valuenow="25"
+        aria-valuemin="0" aria-valuemax="100">Chờ Xác Nhận</div>
+      <div class="progress-bar bg-info" role="progressbar" style="width: 25% ; font-weight: bold;" aria-valuenow="25"
+        aria-valuemin="0" aria-valuemax="100">Chờ Vận Chuyển</div>
+      <div class="progress-bar bg-warning" role="progressbar" style="width: 25% ; font-weight: bold;" aria-valuenow="25"
+        aria-valuemin="0" aria-valuemax="100">Chờ Giao Hàng</div>
+    </div>
+    <div class="row" ng-if="hd.trangThai == 3">
+      <div class="col-3"></div>
+      <div class="col-3"></div>
+      <div class="col-3 text-center " style="font-style: italic;">
+        {{hd.updateAt | date : "dd-MM-yyyy"}}
+      </div>
+    </div>
+
+    <!-- Chờ giao hàng -->
+    <div style="height: 30px;" class="progress" ng-if="hd.trangThai == 1">
+      <div class="progress-bar bg-danger " role="progressbar" style="width: 25% ; font-weight: bold;" aria-valuenow="25"
+        aria-valuemin="0" aria-valuemax="100">Chờ Xác Nhận</div>
+      <div class="progress-bar bg-info " role="progressbar" style="width: 25% ; font-weight: bold;" aria-valuenow="25"
+        aria-valuemin="0" aria-valuemax="100">Chờ Vận Chuyển</div>
+      <div class="progress-bar bg-warning " role="progressbar" style="width: 25% ; font-weight: bold;"
+        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Chờ Giao Hàng</div>
+      <div class="progress-bar bg-success" role="progressbar" style="width: 25% ; font-weight: bold;" aria-valuenow="25"
+        aria-valuemin="0" aria-valuemax="100">Hoàn Thành</div>
+    </div>
+    <div class="row" ng-if="hd.trangThai == 1">
+      <div class="col-3"></div>
+      <div class="col-3"></div>
+      <div class="col-3"></div>
+      <div class="col-3 text-center " style="font-style: italic;">
+        {{hd.updateAt | date : "dd-MM-yyyy"}}
+      </div>
+    </div>
+    <!-- </div> -->
+    <!-- Trạng Thái Đơn Hàng -->
+
+    <!-- Thông tin san phẩm -->
+    <div class="container">
+      <div ng-repeat="hd in listHD">
+        <!-- Card -->
+        <div class="card mt-3 p-5 ">
+          <div class="row g-0">
+            <div class="col-md-12">
+              <div class="text-right text-success ">{{hd.trangThai == 1 ? "Hoàn Thành" : hd.trangThai == 2 ?
+                "Chờ Vận Chuyển" : hd.trangThai == 3 ? "Đang Giao" : hd.trangThai
+                == 0 ? "Chờ Xác Nhận" : hd.trangThai == 4 ? "Đã Hủy" : "Trả Hàng"}}</div>
+              <hr>
+            </div>
+            <!-- HDCT -->
+            <div class="card mb-3 w-100 p-3" style="border: none">
+              <div ng-repeat="hdct in listHDCT">
+                <div class="row g-0">
+                  <div class="col-md-2">
+                    <img ng-if="hdct.anh != null" src="img/{{hdct.anh}}" style="width: 130px;" class="img-fluid rounded-start" alt="...">
+                    <img ng-if="hdct.anh == null && hdct.anh2 != null" src="img/{{hdct.anh2}}" style="width: 130px;" class="img-fluid rounded-start" alt="...">
+                    <img ng-if="hdct.anh == null && hdct.anh2 == null && hdct.anh3 != null" src="img/{{hdct.anh3}}" style="width: 130px;" class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <div class="col-md-10">
+                    <div class="card-body">
+                      <h5 class="card-title">{{hdct.sanPham}}</h5>
+                      <p class="card-text">Kích Cỡ: {{hdct.kichCo}}, Màu: {{hdct.mauSac}}</p>
+                      <p class="card-text"><small class="text-muted" style="float: right;">Thành tiền : {{hdct.donGia -
+                          hdct.giaKhuyenMai |
+                          currency:'':0}}đ</small></p>
+                      <p class="card-text"><small class="text-muted">Đơn giá : {{hdct.donGia |
+                          currency:'':0}} đ</small></p>
+                      <p class="card-text"><small class="text-muted">Giá khuyến mại : {{hdct.giaKhuyenMai |
+                          currency:'':0}} đ</small></p>
+                      <p class="card-text"><small class="text-muted">Số Lượng: x{{hdct.soLuong}}</small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--  -->
+
+            <div class="col-md-12">
+              <hr>
+              <div class="text-right">
+                <p class="card-text">Tổng tiền : <span class="text-danger">{{hd.tongTien | currency:'':0}} đ</span></p>
+                <button class="btn btn-outline-success" ng-click="quayLai(hd)">Quay Lại</button>
+                <!-- Modal -->
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#huy"
+                  ng-if="hd.trangThai != 3 && hd.trangThai !=1">
+                  Hủy Đơn Hàng
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="huy" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                  aria-labelledby="huyLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="huyLabel">Lý Do Hủy</h5>
+                      </div>
+                      <div class="modal-body">
+                        <div class="text-left ">
+                          <input type="radio" value="Tôi muốn thay đổi sản phẩm" name="lyDo" id="0"
+                            ng-model="input.lyDoHuy" />
+                          <label for="0">Tôi muốn thay đổi sản phẩm</label> <br>
+                          <input type="radio" value="Tôi không có nhu cầu mua nữa" name="lyDo" id="1"
+                            ng-model="input.lyDoHuy" />
+                          <label for="1">Tôi không có nhu cầu mua nữa</label> <br>
+                          <input type="radio" value="Đặt nhầm, trùng sản phẩm" name="lyDo" id="2"
+                            ng-model="input.lyDoHuy" />
+                          <label for="2">Đặt nhầm, trùng sản phẩm</label> <br>
+                          <input type="radio" value="Tôi không tìm thấy lý do hủy phù hợp" name="lyDo" id="3"
+                            ng-model="input.lyDoHuy" />
+                          <label for="3">Tôi không tìm thấy lý do hủy phù hợp</label> <br>
+                        </div>
+
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-bs-dismiss="modal">Quay Lại</button>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                          href="#exampleModalToggle5">Xác Nhận Hủy</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="traHang" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                  aria-labelledby="traHangLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" ng-show="traFail">
+                      <div style="width: 200px; height: 200px; margin-left: 150px; margin-top: 50px;">
+                        <img class="img-fluid w-100" src="/KhachHang/img/xac-nhan.jpg">
+                      </div>
+                      <div style="text-align: center;">
+                        <h2 style="color: gray; font-weight: bold;">Xin lỗi !</h2><br>
+                        <h5 style="color: gray;">Đơn hàng đã quá hạn trả hàng.</h5>
+                      </div>
+                      <div style="margin-top: 10px;text-align: center ;">
+                        <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"
+                          style="width: 170px; height: 50px ; text-align: center ; font-size: 20px;font-weight: bold;">Đóng</button>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                    <div class="modal-content" ng-show="traTrue">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="traHangLabel">Lý Do Trả Hàng</h5>
+                      </div>
+                      <div class="modal-body">
+                        <div class="text-left ">
+                          <input type="radio" value="Tôi đã nhận hàng & hàng có vấn đề" name="lyDo" id="0"
+                            ng-model="input.lyDoTra" />
+                          <label for="0">Tôi đã nhận hàng & hàng có vấn đề</label> <br>
+                          <input type="radio" value="Tôi chưa nhận hàng/nhận thiếu hàng" name="lyDo" id="1"
+                            ng-model="input.lyDoTra" />
+                          <label for="1">Tôi chưa nhận hàng/nhận thiếu hàng</label> <br>
+                        </div>
+                        <span style="color:red" ng-show="hoanThanh">
+                          <span>* Vui lòng chọn lý do !</span>
+                        </span>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-bs-dismiss="modal">Quay Lại</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" data-bs-toggle="modal"
+                          href="#exampleModalToggle4">Xác Nhận</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- trả hàng -->
+                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#traHang"
+                  ng-if="hd.trangThai == 1" ng-click="checkTraHang()">
+                  Yêu Cầu Trả Hàng
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="exampleModalToggle4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+          tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div style="width: 200px; height: 200px; margin-left: 150px; margin-top: 50px;">
+                <img class="img-fluid w-100" src="/KhachHang/img/xac-nhan.jpg">
+              </div>
+              <div style="text-align: center;">
+                <h2 style="color: gray; font-weight: bold;">Xác nhận trả hàng ?</h2><br>
+                <h6 style="color: gray;">Bạn có muốn trả đơn hàng không ?</h6>
+              </div>
+              <div style="margin-top: 10px;">
+                <a data-bs-dismiss="modal" aria-label="Close"><button class="btn btn-outline-primary"
+                    ng-click="traLaiHang(hd.idHoaDon, $event)"
+                    style="width: 170px; height: 50px; margin-left: 60px; font-size: 20px; font-weight: bold;">Xác
+                    nhận</button></a>
+                <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"
+                  style="width: 170px; height: 50px;  margin-left: 40px ; font-size: 20px;font-weight: bold;">Hủy</button>
+              </div>
+              <br>
+              <br>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="modal fade" id="exampleModalToggle5" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+          tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div style="width: 200px; height: 200px; margin-left: 150px; margin-top: 50px;">
+                <img class="img-fluid w-100" src="/KhachHang/img/xac-nhan.jpg">
+              </div>
+              <div style="text-align: center;">
+                <h2 style="color: gray; font-weight: bold;">Xác nhận hủy ?</h2><br>
+                <h6 style="color: gray;">Bạn có muốn hủy đơn hàng không ?</h6>
+              </div>
+              <div style="margin-top: 10px;">
+                <a data-bs-dismiss="modal" aria-label="Close"><button class="btn btn-outline-primary"
+                    ng-click="huyDonHang()"
+                    style="width: 170px; height: 50px; margin-left: 60px; font-size: 20px; font-weight: bold;">Xác
+                    nhận</button></a>
+                <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"
+                  style="width: 170px; height: 50px;  margin-left: 40px ; font-size: 20px;font-weight: bold;">Hủy</button>
+              </div>
+              <br>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back to Top -->
+      <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+      <!-- JavaScript Libraries -->
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+      <script src="lib/easing/easing.min.js"></script>
+      <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+      <!-- Contact Javascript File -->
+      <script src="mail/jqBootstrapValidation.min.js"></script>
+      <script src="mail/contact.js"></script>
+
+      <!-- Template Javascript -->
+      <script src="js/main.js"></script>
+</body>
+
+</html>

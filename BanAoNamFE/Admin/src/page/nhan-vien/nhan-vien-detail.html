@@ -1,0 +1,59 @@
+<div class="header">
+  <h2 class="p-3">Thông tin chi tiết</h2>
+  <hr />
+</div>
+<!--  -->
+<div class="container">
+    <div class="row">
+      <div class="col-4 mb-5">
+        <h5 style="padding-left: 20px">Mã Nhân Viên</h5>
+        <input type="text" class="form-control" ng-model="inputNV.ma" />
+        <h5 style="padding-left: 20px">Tên Nhân Viên</h5>
+        <input type="text" class="form-control" ng-model="inputNV.ten"/>     
+        <h5 style="padding-left: 20px">Giới Tính</h5>
+        <input type="radio" value="true" name="gioiTinh" id="nam" ng-model="inputNV.gioiTinh" ng-checked="inputNV.gioiTinh == true ? 'checked' : '' "/>  
+        <label for="nam">Nam</label>
+        <input type="radio" value="false" name="gioiTinh" id="nu" ng-model="inputNV.gioiTinh" ng-checked="inputNV.gioiTinh == false ? 'checked' : '' "/>
+        <label for="nu">Nữ</label>           
+      </div>
+      <!--  -->
+      <div class="col-4 mb-5">
+        <h5 style="padding-left: 20px">Số điện thoại</h5>
+        <input type="text" class="form-control" ng-model="inputNV.soDienThoai"/>
+        <h5 style="padding-left: 20px">Email</h5>
+        <input type="text" class="form-control" ng-model="inputNV.email"/>
+        <h5 style="padding-left: 20px">Chức Vụ</h5>
+        <input type="radio" value="1" name="chucVu" id="1" ng-model="inputNV.chucVu" ng-checked="inputNV.chucVu == 1 ? 'checked' : '' "/>  
+        <label for="1">Quản Lý</label>
+        <input type="radio" value="0" name="chucVu" id="0" ng-model="inputNV.chucVu" ng-checked="inputNV.chucVu == 0 ? 'checked' : '' "/>
+        <label for="0">Nhân Viên</label> 
+      </div>
+      <!--  -->
+      <div class="col-4 mb-5">                           
+        <h5 style="padding-left: 20px">Mật Khẩu</h5>
+        <input type="password" class="form-control"  ng-model="inputNV.matKhau"/>
+        <h5 style="padding-left: 20px">Ngày Sinh</h5>
+        <input type="date" class="form-control" id="ngay-sinh" ng-model="inputNV.ngaySinh "/>
+        <h5 style="padding-left: 20px">Trạng Thái</h5>
+        <input type="radio" value="1" name="trangThai" id="1" ng-model="inputNV.trangThai" ng-checked="inputNV.trangThai == 1 ? 'checked' : '' "/>  
+        <label for="1">Đang Làm</label>
+        <input type="radio" value="0" name="trangThai" id="0" ng-model="inputNV.trangThai" ng-checked="inputNV.trangThai == 0 ? 'checked' : '' "/>
+        <label for="0">Nghỉ Việc</label> 
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <h5 style="padding-left: 20px">Địa chỉ cụ thể</h5>
+        <div class="form-floating">
+          <textarea ng-model="inputNV.diaChi" class="form-control" placeholder="..." id="floatingTextarea2" style="height: 100px"></textarea>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="mt-5 text-center ">
+        <a href="#/nhan-vien" class="btn btn-outline-danger">Quay Lại</a>
+        <button class="btn btn-outline-warning" ng-click="update(nv.id)">Cập Nhật</button>
+      </div>
+    </div>         
+</div>

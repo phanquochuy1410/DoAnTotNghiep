@@ -1,0 +1,140 @@
+<section>
+  <div class="container-fluid px-4">
+    <div class="card">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link" href="#dgsp-xu-ly">Tất Cả
+              <span class="badge text-bg-secondary"></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="#dgsp-hien-thi">Hiển thị
+              <span class="badge text-bg-secondary"></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#dgsp-san-pham">Sản phẩm
+              <span class="badge text-bg-secondary"></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#dgsp-an">Ẩn
+              <span class="badge text-bg-secondary"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <br />
+      <br />
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row" style="justify-content: center;">
+            <div class="form-group col-md-3">
+              <input class="form-control" ng-model="nameSearch" type="text" placeholder="Tìm kiếm..." ng-change="loadData()"/>
+            </div>
+            <div class="form-group col-md-3">
+              <select class="form-control" id="exampleSelect1" ng-model="by" ng-click="loadData()">
+                <option ng-value="'review'">Đánh Giá</option>
+                <option ng-value="'stars'">Tổng Sao</option>
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <select class="form-control" ng-model="orderBy" ng-change="" ng-click="loadData()">
+                <option ng-value="0">Giảm dần</option>
+                <option ng-value="1">Tăng dần</option>
+              </select>
+            </div>
+          </div>
+          <h3 class="text-center">Danh Sách Đơn Hàng</h3>
+          <div class="tbHD container">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="table-secondary">
+                  <th scope="col">Tên Sản Phẩm</th>
+                  <th scope="col">Trung bình sao</th>
+                  <th scope="col">Số lượt đánh giá</th>
+                  <th scope="col">Xem chi tiết</th>
+                </tr>
+              </thead>
+              <tbody ng-repeat="dg in listHienThi">
+                <tr>
+                  <td>{{dg.ten}}</td>
+                  <td>{{dg.danhGia == 0 ? 0 : dg.tongSao / dg.danhGia}}</td>
+                  <td>{{dg.danhGia}}</td>
+                  <td class="text-center">
+                    <a href="" ng-click="getFromSp(dg.id)">
+                      <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" ng-click="getFromSp(dg.id)">
+                        👁️‍🗨️
+                      </button>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="text-align: center;">
+              <button type="button" class="btn btn-outline-primary" ng-click="prevPage(findByElement)">
+                << </button>
+                  <button type=" button" class="btn btn-outline-primary" ng-click="prevPages(findByElement)"> |<
+                      </button>
+                      <div style="display: contents;">{{pageNo + 1}} / {{totalPages + 1 <= 0 ? 1 : totalPages + 1}}</div>
+                      <button type=" button" class="btn btn-outline-primary" ng-click="nextPages(findByElement)"> >|
+                      </button>
+                      <button type=" button" class="btn btn-outline-primary" ng-click="nextPage(findByElement)"> >>
+                      </button>
+            </div>
+          </div>
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Chi tiết đánh giá sản phẩm</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <!--  -->
+                  <div class="form-group col-md-3">
+                    <select class="form-control" id="exampleSelect1" ng-model="modalBy" ng-change="getFromSp(temptId)">
+                      <option ng-value="0">--Sắp xếp--</option>
+                      <option ng-value="1">Số sao từ lớn đến bé</option>
+                      <option ng-value="2">Số sao từ bé đến lớn</option>
+                    </select>
+                  </div>
+                  <div class="container">
+                    <div class="tbHD container">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr class="table-secondary">
+                            <th scope="col">Khách hàng</th>
+                            <th scope="col">Nội dung</th>
+                            <th scope="col">Số sao</th>
+                            <th scope="col">Ngày Đăng</th>
+                            <th scope="col">Trạng thái</th>
+                          </tr>
+                        </thead>
+                        <tbody ng-repeat="dgfsp in listDGFromSp">
+                          <tr>
+                            <td>{{dgfsp.khachHang}}</td>
+                            <td>{{dgfsp.noiDung}}</td>
+                            <td>{{dgfsp.soSao}}</td>
+                            <td>{{dgfsp.ngayDang}}</td>
+                            <td class="text-center">{{dgfsp.trangThai == 1 ? "Hiển Thị" : dgfsp.trangThai == 2 ?
+                              "Ẩn" : "Đang Xử lý" }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div style="text-align: center;">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

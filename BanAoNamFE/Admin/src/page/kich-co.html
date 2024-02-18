@@ -1,0 +1,86 @@
+<section class="dsKC">
+  <div class="container-fluid px-4">
+    <h1 class="mt-4">Kích Cỡ</h1>
+    <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item">
+        <a href="#trang-chu">Trang chủ</a>
+      </li>
+      <li class="breadcrumb-item active">Kích Cỡ</li>
+    </ol>
+    <div class="card mb-4"></div>
+  </div>
+  <div class="list-cl">
+    <div style="text-align: center;" >
+      <h6 style="float: left; margin-left: 400px; margin-top:10px;">Tên :</h6><input style="margin-left: 450px; width: 300px;" type="text" ng-model="x.ten" class="form-control"  />
+    </div>
+    <br />
+    <a style="margin-left: 550px;" href="#/add" ng-click="add($event)">
+      <button type="button" class="btn btn-primary">
+        <i class="fa fa-plus" aria-hidden="true"></i> Thêm
+      </button>
+    </a>
+
+    <br />
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Mã</th>
+          <th scope="col">Tên</th>
+          <th scope="col">Funtion</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="kc in listKC">
+        <tr>
+          <td>{{$index+1}}</td>
+          <td>{{kc.ma}}</td>
+          <td>{{kc.ten}}</td>
+          <td>
+            <a href="#/detail/{{kc.id}}" ng-click="detail($event,$index)">
+              <button type="button" class="btn btn-primary">
+                <i class="fa fa-eye" aria-hidden="true"></i> Details
+              </button></a
+            >
+            <a href="#/update/{{kc.id}}" ng-click="update($event,kc.id)">
+              <button type="button" class="btn btn-primary">
+                <i class="fa fa-pencil"></i> Sửa
+              </button></a
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="text-align: center">
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        ng-click="prevPage()"
+      >
+        <<
+      </button>
+      <button
+        type=" button"
+        class="btn btn-outline-primary"
+        ng-click="prevPages()"
+      >
+        |<
+      </button>
+      <button
+        type=" button"
+        class="btn btn-outline-primary"
+        ng-click="nextPages()"
+      >
+        >|
+      </button>
+      <button
+        type=" button"
+        class="btn btn-outline-primary"
+        ng-click="nextPage()"
+      >
+        >>
+      </button>
+    </div>
+  </div>
+  </div>
+</section>

@@ -1,0 +1,169 @@
+<div style="margin-left: 100px;">
+    <div style=" width:1300px ; height:600px">
+        <div class="carousel-inner">
+            <img src="img/banner13.jpg" style=" width:1300px ; height:600px">
+        </div>
+    </div>
+</div>
+<br>
+<div class="d-inline-flex" style="margin-left: 20px;">
+    <p class=""><a href="#trang-chu" style="color: black;">Trang chủ</a></p>
+    <p class="m-0 px-2" style="color: black;"> > </p>
+    <p class="" style="color: black;">Sản phẩm ưu đãi</p>
+</div>
+<hr style="border: 1px solid black;">
+
+<ul class="nav justify-content-center nav-tabs ">
+    <li class="nav-item">
+        <a class="nav-link " href="#cua-hang">Sản phẩm</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="#cua-hang-khuyen-mai">Sản phẩm ưu đãi</a>
+    </li>
+</ul>
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-3 col-md-12">
+            <div class="border-bottom mb-4 pb-4">
+                <h5 class="font-weight-semi-bold mb-4">Giá</h5>
+                <form>
+                    <input ng-model="giaBatDau" ng-change="searchThuocTinh()" type="text"
+                        style="width: 140px; border-radius: 20px;" placeholder="VND" pattern="[0-9]*"> --
+                    <input ng-model="giaKetThuc" ng-change="searchThuocTinh()" type="text"
+                        style="width: 140px; border-radius: 20px;" placeholder="VND" pattern="[0-9]*">
+                    <div ng-show="invalidNumber && giaBatDau !== ''" style="color: red;">Vui lòng nhập số hợp lệ.</div>
+                </form>
+            </div>
+            <div class="border-bottom mb-4 pb-4">
+                <h5 class="font-weight-semi-bold mb-4">Màu sắc</h5>
+                <form>
+                    <div ng-repeat="ms in listMS"
+                        class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" style="width: 17px; height: 17px;" ng-change="searchThuocTinh()"
+                            ng-model="tenMau" class="form-check-input" ng-click="checkMauSac(ms.ten)">{{ms.ten}}
+                        <!-- <span class="badge border font-weight-normal">{{ms.soLuong}}</span> -->
+                    </div>
+                </form>
+            </div>
+            <div class="border-bottom mb-4 pb-4">
+                <h5 class="font-weight-semi-bold mb-4">Kích cỡ</h5>
+                <form>
+                    <div ng-repeat="kc in listKC"
+                        class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" style="width: 17px; height: 17px;" ng-change="searchThuocTinh()"
+                            ng-model="kichCo" ng-click="checkKichCo(kc.ten)" class="form-check-input">{{kc.ten}}
+                        <!-- <span class="badge border font-weight-normal">{{kc.soLuong}}</span> -->
+                    </div>
+                </form>
+            </div>
+
+            <div class="mb-5">
+                <h5 class="font-weight-semi-bold mb-4">Chất liệu</h5>
+                <form>
+                    <div ng-repeat="cl in listCL"
+                        class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" style="width: 17px; height: 17px;" ng-change="searchThuocTinh()"
+                            ng-model="chatLieu" ng-click="checkChatLieu(cl.ten)" class="form-check-input">{{cl.ten}}
+                        <!-- <span class="badge border font-weight-normal">{{cl.soLuong}}</span> -->
+                    </div>
+                </form>
+            </div>
+
+            <div class="mb-5">
+                <h5 class="font-weight-semi-bold mb-4">Thể loại</h5>
+                <form>
+                    <div ng-repeat="tl in listTL"
+                        class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" style="width: 17px; height: 17px;" ng-change="searchThuocTinh()"
+                            ng-model="theLoai" ng-click="checkTheLoai(tl.ten)" class="form-check-input">{{tl.ten}}
+                        <!-- <span class="badge border font-weight-normal">{{tl.soLuong}}</span> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-9 col-md-12">
+            <div class="row pb-3">
+                <div class="col-12 pb-1">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <form action="">
+                            <div class="input-group">
+                                <input type="text" ng-model="searchTenSanPham" ng-change="searchThuocTinh()"
+                                    class="form-control" placeholder="Tìm kiếm sản phẩm...">
+                            </div>
+                        </form>
+                        <div class="dropdown ml-4">
+                            <select class="btn border dropdown-toggle" type="button" id="triggerId"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-model="showGia">
+                                <option class="dropdown-item" value="">Sắp xếp</option>
+                                <option class="dropdown-item" value="gia">Tăng dần</option>
+                                <option class="dropdown-item" value="-gia">Giảm dần</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- class="card-header product-img position-relative overflow-hidden bg-transparent border p-0" -->
+                <div class="col-lg-4 col-md-6 col-sm-12 pb-1" ng-repeat="chkm in listCHKM | orderBy:showGia">
+                    <div class="card product-item border-0 mb-4">
+                        <div class="image-container">
+                            <div class="triangle"></div>
+                            <div class="spans">{{chkm.chietKhau}}%</div>
+                            <img ng-if="chkm.tenAnh != null" class="img-fluid w-100" src="img/{{chkm.tenAnh}}" style="width: 150px; height: 400px;">
+                            <img ng-if="chkm.tenAnh == null && chkm.tenAnh2 != null" class="img-fluid w-100" src="img/{{chkm.tenAnh2}}" style="width: 150px; height: 400px;">
+                            <img ng-if="chkm.tenAnh == null && chkm.tenAnh2 == null && chkm.tenAnh3 != null" class="img-fluid w-100" src="img/{{chkm.tenAnh3}}" style="width: 150px; height: 400px;">
+                            <div class="overlay">
+                                <a style="text-decoration: none;" href="#detail/{{chkm.id}}">XEM THÊM</a>
+                            </div>
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3">{{chkm.tenSanPham}}</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6>{{chkm.gia - chkm.giaKM | currency:'':0}}đ</h6>
+                                <h6 class="text-muted ml-2"><del style="color: red; font-size: 10px;">{{chkm.gia |
+                                        currency:'':0}}đ</del></h6>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+
+            <div style="text-align: center;">
+                <button type="button" class="btn btn-outline-primary" ng-click="prevPage()">
+                    << </button>
+                        <button type=" button" class="btn btn-outline-primary" ng-click="prevPages()"> |< </button>
+                                <button type=" button" class="btn btn-outline-primary" ng-click="nextPages()"> >|
+                                </button>
+                                <button type=" button" class="btn btn-outline-primary" ng-click="nextPage()"> >>
+                                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .discount-box {
+        position: relative;
+    }
+
+    .triangle {
+        position: absolute;
+        right: 0;
+        width: 0;
+        height: 0;
+        border-left: 50px solid transparent;
+        border-top: 50px solid red;
+    }
+
+    .spans {
+        position: absolute;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        margin-left: 285px;
+        margin-top: 10px;
+        transform: rotate(45deg);
+
+    }
+</style>

@@ -1,0 +1,54 @@
+<div>
+    TÌM KIẾM
+    <br>
+    <div>
+        Mã : <input type="text" ng-model="maSearch"><br>
+        Tên : <input type="text" ng-model="tenSearch"><br>
+        <button ng-click="search($event)">Search</button>
+    </div>
+    <br>
+    DANH SÁCH
+    <br>
+    Mã : <input type="text" ng-model="x.ma"><br>
+    Tên : <input type="text" ng-model="x.ten"><br>
+    SDT : <input type="text" ng-model="x.sdt"><br>
+    Chức vụ : <select ng-model="x.idChucVu">
+        <option ng-repeat="cv in listCV" value="{{cv.id}}" ng-selected> {{cv.ten}}</option>
+    </select><br>
+
+    <a href="#/add" ng-click="add($event)"><button>Add</button></a><br>
+
+    <table class="table" border="1">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Mã</td>
+                <td>Tên</td>
+                <td>SDT</td>
+                <td>CV</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody ng-repeat="nv in listNV">
+            <tr>
+                <td>{{nv.id}}</td>
+                <td>{{nv.ma}}</td>
+                <td>{{nv.ten}}</td>
+                <td>{{nv.sdt}}</td>
+                <td>{{nv.idChucVu.ten}}</td>
+                <td>
+                    <a href="#/detail/{{nv.id}}" ng-click="detail($event,nv.id)"><button>Delail</button></a>
+                    <a href="#/update/{{nv.id}}" ng-click="update($event,nv.id)"><button>Update</button></a>
+                    <a href="#/delete/{{nv.id}}" ng-click="delete($event,nv.id)"><button>Delete</button></a>
+                </td>
+            </tr>
+        </tbody>
+    </table><br>
+    <div>
+        <button ng-click="prevPage()">
+            << </button>
+                <button ng-click="prevPages()"> |< </button>
+                        <button ng-click="nextPages()"> >| </button>
+                        <button ng-click="nextPage()"> >> </button>
+    </div>
+</div>

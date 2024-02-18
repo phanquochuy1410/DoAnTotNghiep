@@ -1,0 +1,205 @@
+<main class="app-content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item">Chi tiết sản phẩm</li>
+            <li class="breadcrumb-item"><a href="#">form sản phẩm</a></li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Thao tác với sản phẩm</h3>
+                <div class="tile-body">
+                    <form class="row" name="new">
+                        <div class="form-group  col-md-3">
+                            <label class="control-label">Sản phẩm</label>
+                            <select class="form-control" id="exampleSelect1" ng-model="editCTSP.idSanPham" ng-change="caculateGKM(editCTSP.idSanPham,editCTSP.gia)">
+                                <option ng-value="0">---Lựa Chọn---</option>
+                                <option ng-repeat="sp in sanPhams" ng-value="sp.id"
+                                    ng-selected="sp.id == editCTSP.idSanPham.id">{{sp.ten}}</option>
+                            </select>
+                            <span style="color:red" ng-show="sanPhamFail">
+                                <span>Xin hãy lựa chọn 1 sản phẩm</span>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Giá</label>
+                            <input class="form-control" type="number" name="gia" placeholder="" ng-model="editCTSP.gia" ng-change="caculateGKM(editCTSP.idSanPham,editCTSP.gia)" required>
+                            <span style="color:red" ng-show="new.gia.$dirty && new.gia.$invalid">
+                                <span>Không để trống số giá sản phẩm</span>
+                            </span>
+                            <span style="color:red" ng-show="giaFail">
+                                <span>Giá sản phẩm không được phép nhỏ hơn 0</span>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Số lượng</label>
+                            <input class="form-control" type="number" name="soLuong" placeholder="" ng-model="editCTSP.soLuong" required>
+                            <span style="color:red" ng-show="new.soLuong.$dirty && new.soLuong.$invalid">
+                                <span>Không để trống số lượng</span>
+                            </span>
+                            <span style="color:red" ng-show="soLuongFail">
+                                <span>Số lượng không được phép nhỏ hơn 0</span>
+                            </span>
+                            
+                        </div>
+                        
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Giá khuyến mãi </label>
+                            <input class="form-control" type="number" placeholder="" readonly ng-model="editCTSP.giaKhuyenMai">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Kích cỡ</label>
+                            <select class="form-control" id="exampleSelect1" ng-model="editCTSP.idKichCo">
+                                <option ng-value="0">---Lựa Chọn---</option>
+                                <option ng-repeat="kc in kichCos" ng-value="kc.id"
+                                    ng-selected="kc.id == editCTSP.idKichCo.id">{{kc.ten}}</option>
+                            </select>
+                            <span style="color:red" ng-show="kichCoFail">
+                                <span>Xin hãy lựa chọn 1 kích cỡ</span>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-3 ">
+                            <label for="exampleSelect1" class="control-label">Màu sắc</label>
+                            <select class="form-control" id="exampleSelect1" ng-model="editCTSP.idMauSac">
+                                <option ng-value="0">---Lựa Chọn---</option>
+                                <option ng-repeat="ms in mauSacs" ng-value="ms.id"
+                                    ng-selected="ms.id == editCTSP.idMauSac.id">{{ms.ten}}</option>
+                            </select>
+                            <span style="color:red" ng-show="mauSacFail">
+                                <span>Xin hãy lựa chọn 1 màu sắc</span>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="exampleSelect1" class="control-label">Hãng</label>
+                            <select class="form-control" id="exampleSelect1" ng-model="editCTSP.idHang">
+                                <option ng-value="0">---Lựa Chọn---</option>
+                                <option ng-repeat="h in hangs" ng-value="h.id" ng-selected="h.id == editCTSP.idHang.id">
+                                    {{h.ten}}</option>
+                            </select>
+                            <span style="color:red" ng-show="hangFail">
+                                <span>Xin hãy lựa chọn 1 hãng</span>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-3 ">
+                            <label for="exampleSelect1" class="control-label">Thể loại</label>
+                            <select class="form-control" id="exampleSelect1" ng-model="editCTSP.idTheLoai">
+                                <option ng-value="0">---Lựa Chọn---</option>
+                                <option ng-repeat="tl in theLoais" ng-value="tl.id"
+                                    ng-selected="tl.id == editCTSP.idTheLoai.id">{{tl.ten}}</option>
+                            </select>
+                            <span style="color:red" ng-show="theLoaiFail">
+                                <span>Xin hãy lựa chọn 1 thể loại</span>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Chất liệu</label>
+                            <select class="form-control" id="exampleSelect1" ng-model="editCTSP.idChatLieu">
+                                <option ng-value="0">---Lựa Chọn---</option>
+                                <option ng-repeat="cl in chatLieus" ng-value="cl.id"
+                                    ng-selected="cl.id == editCTSP.idChatLieu.id">{{cl.ten}}</option>
+                            </select>
+                            <span style="color:red" ng-show="chatLieuFail">
+                                <span>Xin hãy lựa chọn 1 chất liệu</span>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Trạng thái</label>
+                            <select class="form-control " id="exampleSelect1" ng-model="editCTSP.trangThai">
+                                <option ng-value="1" ng-selected="chiTietSanPham.trangThai == 1 ? 'selected' : ''">Còn
+                                    hàng</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="control-label">Ảnh sản phẩm</label>
+                            <div ng-repeat="i in [1, 2, 3, 4, 5]">
+                                <div>
+                                    <input type="file" name="file"
+                                        onchange="angular.element(this).scope().photoChanged(this.files)"
+                                         />
+                                    <img ng-src="{{thumbnail[$index].dataUrl}}" height="50px" />
+                                    {{fileNames[$index]}}
+                                </div>
+                            </div>
+                            <span style="color:red" ng-show="failImg">
+                                <span>Phải chọn ít nhất 3 ảnh</span>
+                            </span>
+                            <!-- <div id="thumbbox">
+                                <img height="450" width="400" alt="Thumb image" id="thumbimage" style="display: none" />
+                                <a class="removeimg" href="javascript:"></a>
+                            </div>
+                            <div id="boxchoice">
+                                <a href="javascript:" class="Choicefile"><i class="fas fa-cloud-upload-alt"></i> Chọn
+                                    ảnh</a>
+                                <p style="clear:both"></p>
+                            </div> -->
+
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="control-label">Mô tả sản phẩm</label>
+                            <textarea class="form-control" name="" id="mota" ng-model="editCTSP.mota" required></textarea>                           
+                        </div>
+                        <!-- <input class="form-control" name="mos" ng-model="mos" id="mota" required></input>
+                        <h1>{{new.mos.$valid}}</h1> -->
+                    </form>
+                </div>
+                <a ng-href="#chi-tiet-san-pham" class="btn btn-primary" ng-click="update($event)">
+                    Sửa
+                </a>
+                <button class="btn btn-save" data-bs-toggle="modal" data-bs-target="#thuocTinh">Thêm thuộc tính</button>
+                <a class="btn btn-cancel" ng-href="#chi-tiet-san-pham">Hủy bỏ</a>
+            </div>
+</main>
+
+<!-- 
+  MODAL CHỨC VỤ 
+-->
+<div class="modal fade" id="thuocTinh" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form name="tt">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group  col-md-12">
+                            <span class="thong-tin-thanh-toan">
+                                <h5>Thêm mới nhà cung cấp</h5>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Nhập tên chức vụ mới</label>
+                            <input class="form-control" type="text" ng-model="x.ten" name="ten"
+                                required>
+                            <span style="color:red" ng-if="tt.ten.$dirty && tt.ten.$invalid">
+                                <span>Khong duoc de trong ten</span>
+                            </span>
+                            <span style="color:red" ng-if="trung">
+                                <span>Ten da ton tai</span>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Lựa chọn thuộc tính</label>
+                            <select class="form-control" ng-model="luaChonTT">
+                                <option ng-value="'sanpham'">Sản phẩm</option>
+                                <option ng-value="'hang'">Hãng</option>
+                                <option ng-value="'chatlieu'">Chất liệu</option>
+                                <option ng-value="'theloai'">Thể loại</option>
+                                <option ng-value="'mausac'">Màu sắc</option>
+                                <option ng-value="'kichco'">Kích cỡ</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <BR>
+                    <button class="btn btn-save" type="button" ng-click="savethuoctinh($event)">Lưu lại</button>
+                    <a class="btn btn-cancel" data-bs-dismiss="modal">Hủy bỏ</a>
+                    <BR>
+                </div>
+            </form>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+MODAL -->

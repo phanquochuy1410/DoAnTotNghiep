@@ -1,0 +1,115 @@
+<section class="dsSP">
+  <div class="container-fluid px-4">
+    <h1 class="mt-4">Sản Phẩm</h1>
+    <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item">
+        <a href="#trang-chu">Trang chủ</a>
+      </li>
+      <li class="breadcrumb-item active">Sản Phẩm</li>
+    </ol>
+    <div class="card mb-4"></div>
+  </div>
+  <div class="list-cl">
+    <div class="row">
+      <div style="text-align: center;">
+        <h6 style="float: left; margin-left: 400px; margin-top:10px;">Tên :</h6><input
+          style="margin-left: 450px; width: 300px;" type="text" ng-model="x.ten" class="form-control" />
+        <span style="color:red" ng-show="empty">
+          <span>Không được để trống tên</span>
+        </span>
+        <span style="color:red" ng-show="trung">
+          <span>Tên không được trùng</span>
+        </span>
+      </div>
+    </div>
+    <br />
+    <a style="margin-left: 550px;" href="#/add" ng-click="add($event)">
+      <button type="button" class="btn btn-primary">
+        <i class="fa fa-plus" aria-hidden="true"></i> Thêm
+      </button>
+    </a>
+    <br />
+    <div class="card mb-4"></div>
+
+    <div>
+      <div style="float: right;">
+        <a style="margin-right: 20px;" ng-click="updateKM(idChon)">
+          <button style="height: 40px;" type="button" class="btn btn-primary">
+            <i class="fa fa-pencil"></i> Cập nhật Khuyến Mãi
+          </button></a>
+        <select class="form-select form-select-sm" aria-label="Small select example"
+          style="width: 300px ; height: 40px; float:right;" ng-model="idChon">
+          <option ng-value="0">Mã Khuyến Mãi</option>
+          <option ng-value="km.id" ng-repeat="km in khuyenMai"
+            ng-selected="x.idKhuyenMai.id === km.id ? 'selected': ''">
+            {{km.ten}}
+          </option>
+        </select>
+      </div>
+      <div style="float: left; margin-left: 20px;">
+        <input style="width: 200px;" type="text" ng-change="timKiem()" ng-model="searchTen" placeholder="Tìm kiếm..." class="form-control" />
+      </div>
+    </div>
+    <br>
+    <br />
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">
+            <input type="checkbox" name="select-all" ng-model="all" ng-click="selectAll()" />
+          </th>
+          <th scope="col">Mã</th>
+          <th scope="col">Tên</th>
+          <th scope="col">Khuyễn Mãi</th>
+          <th scope="col">Funtion</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="sp in listSP">
+        <tr>
+          <td width="10">
+            <input type="checkbox" ng-checked="listIdAll[sp.id-1] == sp.id ? 'checked' : ''"
+              ng-click="checkId(sp.id)" />
+            <!-- <input type="checkbox" ng-click="checkId(sp.id)" ng-checked="all" ng-true-value="sp.id" ng-false-value="0"/> -->
+          </td>
+          <td>{{sp.ma}}</td>
+          <td>{{sp.ten}}</td>
+          <td>{{sp.idKhuyenMai.ten}}</td>
+
+          <td>
+            <a href="#/detail/{{sp.id}}" ng-click="detail($event,sp.id)">
+              <button type="button" class="btn btn-primary">
+                <i class="fa fa-eye" aria-hidden="true"></i> Details
+              </button></a>
+            <a href="#/update/{{sp.id}}" ng-click="update($event,sp.id)">
+              <button type="button" class="btn btn-primary">
+                <i class="fa fa-pencil"></i> Sửa
+              </button></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div id="myAlert" class="modal fade" role="dialog" data-bs-backdrop="false">
+      <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px">
+        <div class="modal-content">
+          <div class="modal-body">
+            ✅ Thành công !
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center">
+      <button type="button" class="btn btn-outline-primary" ng-click="prevPage()">
+        << </button>
+          <button type=" button" class="btn btn-outline-primary" ng-click="prevPages()">
+            |< </button>
+              <button type=" button" class="btn btn-outline-primary" ng-click="nextPages()">
+                >|
+              </button>
+              <button type=" button" class="btn btn-outline-primary" ng-click="nextPage()">
+                >>
+              </button>
+    </div>
+  </div>
+</section>

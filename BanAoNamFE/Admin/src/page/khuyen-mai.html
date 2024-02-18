@@ -1,0 +1,153 @@
+<section class="dsKC">
+  <div style="width: 1000px; height: 60px; background-color: #4CAF50; color: #fff;text-align: center;" ng-if="check">
+  <!-- <span style="width: 1000px; height: 60px; background-color: #4CAF50; color: #fff;" ng-if="check"> -->
+    <span>Thêm thành công</span>
+  <!-- </span> -->
+</div>
+  <div class="container-fluid px-4">
+    <h1 class="mt-4">Khuyến Mại</h1>
+    <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item">
+        <a href="#trang-chu">Trang chủ</a>
+      </li>
+      <li class="breadcrumb-item active">Khuyến Mại</li>
+    </ol>
+    <div class="card mb-4"></div>
+  </div>
+  <div class="list-cl">
+    <div style="margin-left: 200px; float: left;">
+      <h4>Thông tin khuyến mại</h4>
+      <br>
+      Tên :<input class="form-control" type="text" ng-model="x.ten" style="width: 250px" /><br>
+      Chiết Khấu<input type="text" class="form-control" ng-model="x.chietKhau" style="width: 250px" />
+      <br>
+    </div>
+    <div style="margin-left: 700px;">
+      <h4>Thời gian</h4>
+      <br>
+      Ngày Bắt Đầu :
+      <input type="date" class="form-control" id="ngay-bat-dau" ng-model="x.ngayBatDau" style="width: 250px" />
+      <span style="color:red" ng-if="checkNBD">
+        <span>Ngày bắt đầu không được lớn hơn ngày kết thúc</span>
+      </span>
+      <span style="color:red" ng-if="checkTrongNBD">
+        <span>Không được để trống ngày bắt đầu</span>
+      </span>
+      <br>
+      Ngày Kết Thúc :
+      <input type="date" class="form-control" id="ngay-ket-thuc" ng-model="x.ngayKetThuc" style="width: 250px" />
+      <span style="color:red" ng-if="checkNKT">
+        <span>Ngày kết thúc không được nhỏ hơn ngày bắt đầu </span>
+      </span>
+      <span style="color:red" ng-if="checkTrongNKT">
+        <span>Không được để trống ngày kết thúc</span>
+      </span>
+    </div>
+    <br />
+    <hr />
+    <br />
+    <div style="margin-left: 450px;">
+      <a href="#/add" ng-click="add($event)">
+        <button type="button" class="btn btn-primary">
+          <i class="fa fa-plus" aria-hidden="true"></i> Thêm
+        </button>
+      </a>
+
+      <a href="" ng-click="updateHetHan()">
+        <button type="button" class="btn btn-primary">
+          <i class="fa fa-plus" aria-hidden="true"></i> Cập nhật khuyến mại
+        </button>
+      </a>
+    </div>
+    <br />
+
+    <div style="margin-left: 30px; float: left; margin-top: 20px;">
+      <input class="form-control" ng-change="search()" type="text" ng-model="timKiem" placeholder="Tìm kiếm" style="width: 250px"><br>
+    </div>
+    <div style="margin-top: 30px; float: right;">
+      <select ng-model="trangThai"  class="form-select" aria-label="Default select example"
+          style="width: 200px ; height: 40px; margin-left: 500px;"  ng-change="search()">
+          <option value="">Trạng thái</option>
+          <option value="2">Hết hạn</option>
+          <option value="0">Đang hoạt động</option>
+      </select>
+  </div>
+    <br />
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Mã</th>
+          <th scope="col">Tên</th>
+          <th scope="col">Ngày Bắt Đầu</th>
+          <th scope="col">Ngày Kết Thúc</th>
+          <th scope="col">Chiết Khấu</th>
+          <th scope="col">Trạng Thái</th>
+          <th scope="col">Funtion</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="km in listKM">
+        <tr>
+          <td>{{$index+1}}</td>
+          <td>{{km.ma}}</td>
+          <td>{{km.ten}}</td>
+          <td>{{km.ngayBatDau}}</td>
+          <td>{{km.ngayKetThuc}}</td>
+          <td>{{km.chietKhau}}</td>
+          <td>{{km.trangThai == 0 ? "Đang Hoạt Động" : km.trangThai == 1 ? "Sắp Bắt Đầu" : "Hết Hạn"}}</td>
+
+          <td>
+            <a href="#/details/{{km.id}}" ng-click="details($event,$index)">
+              <button type="button" class="btn btn-primary">
+                <i class="fa fa-eye" aria-hidden="true"></i> Xem
+
+              </button></a>
+            <a href="#/update/{{km.id}}" ng-click="update($event,km.id)">
+              <button type="button" class="btn btn-primary">
+                <i class="fa fa-pencil"></i> Sửa
+              </button></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="myAlert" class="modal fade" role="dialog" data-bs-backdrop="false">
+    <div class="modal-dialog" style="position: fixed; top: 20px; right: 5px">
+      <div class="modal-content">
+        <div class="modal-body">
+          ✅ Thành công !
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center">
+    <button type="button" class="btn btn-outline-primary" ng-click="prevPage()">
+      << </button>
+        <button type=" button" class="btn btn-outline-primary" ng-click="prevPages()">
+          |< </button>
+            <button type=" button" class="btn btn-outline-primary" ng-click="nextPages()">
+              >|
+            </button>
+            <button type=" button" class="btn btn-outline-primary" ng-click="nextPage()">
+              >>
+            </button>
+  </div>
+
+  <style>
+        .custom-alert {
+      display: none;
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</section>

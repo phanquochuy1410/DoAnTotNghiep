@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="GioHang">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Xác nhận thanh toán</title>
+    <link rel="stylesheet" href="/KhachHang/css/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+</head>
+<header>
+    <div class="container bgcart">
+        <div class="content">
+            <!-- <h1>Giỏ Hàng</h1> -->
+        </div>
+    </div>
+</header>
+<section class="container" style=" font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">
+
+</section>
+
+<body ng-controller="CheckOutController">
+    <!-- <div> -->
+        <div style="margin-left: 100px;">
+            <div style=" width:1300px ; height: 200px; background-color: antiquewhite;">
+                <div class="carousel-inner">
+                    <p style="font-size: 70px; color: cornflowerblue; margin-left: 250px; margin-top: 40px;">𝓧á𝓬𝓝𝓱ậ𝓷𝓣𝓱𝓪𝓷𝓱𝓣𝓸á𝓷</p>
+                </div>
+            </div>
+        </div>
+    <div
+        style=" margin-left: 34%;margin-top: 50px; width: 500px; height: 500px; border-radius: 40px; background-color: white;">
+        <img src="/KhachHang/img/xac-nhan.jpg" style="width: 300px; height: 250px; margin-left: 20%;margin-top: 30px;"><br>
+        <p style="font-size: 30px;font-weight: bold; color: gray; text-align: center;">Xác nhận đã thanh toán Vnpay !</p><br>
+        <div>
+            <a href="/KhachHang/src/pages/thanh-toan-thanh-cong.html"><button ng-click="thanhToanAndVnpay()" class="btn btn-outline-primary"
+                    style="width: 170px; height: 50px; margin-left: 70px; font-size: 20px; font-weight: bold;">Xác nhận</button></a>
+            <a href="/KhachHang/index.html"><button ng-click="returnCart()" class="btn btn-outline-danger"
+                    style="width: 170px; height: 50px; margin-left: 30px; font-size: 20px; font-weight: bold;">Hủy</button></a>
+        </div>
+    </div>
+    <!-- </div> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script src="/Admin/lib/angular.min.js"></script>
+    <script src="/KhachHang/src/config/api.js"></script>
+    <script src="/KhachHang/src/controller/gio-hang.js"></script>
+    <script src="/KhachHang/src/controller/dataservice.js"></script>
+</body>
+
+</html>

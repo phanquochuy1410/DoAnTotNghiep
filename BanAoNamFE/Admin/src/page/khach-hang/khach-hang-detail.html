@@ -1,0 +1,66 @@
+<div class="header mb-5">
+    <h2 class="p-3">Thông tin chi tiết</h2>
+    <hr />
+  </div>
+  <div class="modal-body">
+    <!--  -->
+      <div class="container">
+      <div class="row">
+        <div class="col-4 mb-5">
+          <h5 style="padding-left: 20px">Mã Khách Hàng</h5>
+          <input type="text" class="form-control" ng-model="input.ma"/>
+          <h5 style="padding-left: 20px">Tên Khách Hàng</h5>
+          <input type="text" class="form-control" ng-model="input.ten"/>                  
+        </div>
+        <!--  -->
+        <div class="col-4 mb-5">
+          <h5 style="padding-left: 20px">Số điện thoại</h5>
+          <input type="text" class="form-control" ng-model="input.soDienThoai"/>
+          <h5 style="padding-left: 20px">Email</h5>
+          <input type="text" class="form-control" ng-model="input.email"/>
+        </div>
+        <!--  -->
+        <div class="col-4 mb-5">
+          <h5 style="padding-left: 20px">Giới Tính</h5>
+          <input type="radio" value="1" name="gioiTinh" id="1" ng-model="input.gioiTinh" ng-checked="input.gioiTinh == '1' ? 'checked' : ''"/>
+          <label for="1">Nam</label>
+          <input type="radio" value="0" name="gioiTinh" id="0" ng-model="input.gioiTinh" ng-checked="input.gioiTinh == '0' ? 'checked' : ''"/>
+          <label for="0">Nữ</label>
+          <h5 style="padding-left: 20px">Mật Khẩu</h5>
+          <input type="password" class="form-control" ng-model="input.matKhau"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <!--  -->
+        <div class="col-4 mb-5">
+          <h5 style="padding-left: 20px">Xã</h5>
+          <input type="text" class="form-control" ng-model="input.idDiaChi.xa">          
+        </div>
+        <!--  -->
+        <div class="col-4 mb-5">
+          <h5 style="padding-left: 20px">Huyện</h5>
+          <input type="text" class="form-control" ng-model="input.idDiaChi.huyen">
+        </div>
+        <!--  -->
+        <div class="col-4 mb-5">
+          <h5 style="padding-left: 20px">Thành Phố</h5>
+          <input type="text" class="form-control" ng-model="input.idDiaChi.thanhPho">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <h5 style="padding-left: 20px">Địa chỉ cụ thể</h5>
+          <div class="form-floating">
+            <textarea class="form-control" ng-model="input.idDiaChi.diaChiCuThe" id="floatingTextarea2" style="height: 100px"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>         
+  </div>
+  <div class="mt-5 text-center ">
+    <a href="#khach-hang">
+        <button type="button" class="btn btn-outline-primary">Close</button>
+    </a>
+  </div>

@@ -1,0 +1,150 @@
+<section>
+    <div class="container-fluid px-4">
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link " href="#thong-ke-ban-chay">Thống kê trong ngày</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active " href="">Thống kê doanh thu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#thong-ke">Thống kê đơn hàng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#thong-ke-san-pham">Thống kê sản phẩm</a>
+                    </li>
+                </ul>
+            </div>
+            <br>
+
+                <ul class="nav justify-content-center nav-tabs ">
+                    <li class="nav-item">
+                        <a class="nav-link " href="#thong-ke-theo-ngay">Ngày</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#thong-ke-theo-thang">Tháng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#thong-ke-theo-nam">Năm</a>
+                    </li>
+                </ul>
+
+            <br>
+            <div>
+                <a class="btn btn-primary" data-bs-toggle="collapse" href="" role="button" aria-expanded="false"
+                    aria-controls="collapseExample" data-bs-target="#collapseExample">
+                    Thống kê tháng
+                </a>
+
+                <a class="btn btn-primary" data-bs-toggle="collapse" href="" role="button" aria-expanded="false"
+                    aria-controls="collapseExamples" data-bs-target="#collapseExamples">
+                    Thống kê theo khoảng tháng
+                </a>
+                <br>
+
+                <div class="collapse" id="collapseExample" style="margin-top: 10px; float: left;">
+                    <div>
+                        <div style="float: left; margin-left: 380px;">
+                            <select ng-model="thang" ng-init="thang = '0'" class="form-select" aria-label="Default select example"
+                                style="width: 200px ;"  ng-change="loadThongKeThang()">
+                                <option value="0">Chọn tháng</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                        <div style=" margin-left: 100px;">
+                            <select ng-model="nam" ng-init="nam = '0'" class="form-select" aria-label="Default select example"
+                                style="width: 200px ; margin-left: 500px;" ng-change="loadThongKeThang()">
+                                <option value="0">Chọn năm</option>
+                                <option ng-repeat="n in listN" ng-value="n.thang">{{n.thang}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapse" id="collapseExamples" style="margin-top: 10px;">
+                    <div style="margin-left: 250px; float: left;">
+                        <b></b> <select ng-model="thangBatDau" ng-init="thangBatDau = '0'" class="form-select" aria-label="Default select example"
+                            style="width: 200px;" ng-change="loadThongKeKhoangThang()">
+                            <option value="0">Tháng bắt đầu</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+                    <div style="float: left; margin-left: 20px;">
+                         <select ng-model="thangKetThuc" ng-init="thangKetThuc = '0'" class="form-select" aria-label="Default select example"
+                            style="width: 200px;" ng-change="loadThongKeKhoangThang()">
+                            <option value="0">Tháng kết thúc</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+                    <div style=" margin-left: 190px;">
+                        <select ng-model="nam1" class="form-select" aria-label="Default select example"
+                            style="width: 200px ; margin-left: 500px;" ng-change="loadThongKeKhoangThang()">
+                            <option value="">Chọn năm</option>
+                            <option ng-repeat="n in listN" ng-value="n.thang">{{n.thang}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="card-group">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Tổng doanh thu</h5>
+                        <p class="card-text">
+                        <h1 style="color: red;">{{tongTien | currency:'':0}} đ</h1>
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Tổng đơn hàng</h5>
+                        <p class="card-text">
+                        <h1 style="color: red;">{{donHang}}</h1>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+
+            <div class="col-md-12" style="width: 1700px;">
+                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+</section>
